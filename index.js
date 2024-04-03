@@ -84,7 +84,7 @@ app.post("/api/cards", (request, response) => {
 });
 
 // PATCH method applies partial modifications to a resource send only data to be modified.
-app.patch("/api/cards/:cardId", (request, response) => {
+app.patch("/api/cards/:cardId", validateCardId, (request, response) => {
   // const {params: {cardId}, body} = request;
   const {
     params: { cardId },
@@ -107,7 +107,7 @@ app.patch("/api/cards/:cardId", (request, response) => {
 
 // PUT method replaces all current representations of the target resource with the request payload.
 // Need to send no-modified data and modified data in the body.
-app.put("/api/cards/:cardId", (request, response) => {
+app.put("/api/cards/:cardId", validateCardId, (request, response) => {
   const {
     params: { cardId },
     body,
@@ -127,7 +127,7 @@ app.put("/api/cards/:cardId", (request, response) => {
 });
 
 // DELETE
-app.delete("/api/cards/:cardId", (request, response) => {
+app.delete("/api/cards/:cardId", validateCardId, (request, response) => {
   const {
     params: { cardId },
   } = request;
