@@ -9,16 +9,20 @@ const bodyParser = require("body-parser");
 // DATA
 let cards = require("./data/cards.js");
 
-const cardIdMiddleware = function (request, response, next) {
-  const cardId = request.params.cardId;
-  request.cardIdMiddleware = (card) => card.id === cardId;
-  next();
+// cardId Middleware
+const validateCardId = function (request, response, next) {
+  const {
+    params: { cardId },
+  } = request;
+  const cardExists = cards.find(({ id }) => id === cardId);
+  cardExists
+    ? next()
+    : response.status(400).json({ msg: "Card with this id doesn't exist." });
 };
 
-// Middleware
+// Middleware - middleware functions that are loaded first are also executed first.
 app.use(cors());
 app.use(bodyParser.json());
-app.use(cardIdMiddleware);
 
 // API 1
 app.get("/hello", (request, response, next) => {
@@ -26,19 +30,19 @@ app.get("/hello", (request, response, next) => {
 });
 
 // API 2
-// TODO: 1. Copy file cards.js from Next.js app into server project and import here.
+// 1. Copy file cards.js from Next.js app into server project and import here.
 //  GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
+//
 app.get("/api/cards", (request, response, next) => {
   response.status(200).json({ cards });
 });
 
 // API 3
-// TODO: 2. Make another API: /api/cards/:cardId -- SINGLE CARD
+// 2. Make another API: /api/cards/:cardId -- SINGLE CARD
 //
-app.get("/api/cards/:cardId", (request, response) => {
-  // const cardId = request.params.cardId;
-  // const getCardId = cards.find((card) => card.id === cardId);
-  const getCardId = cards.find(request.cardIdMiddleware);
+app.get("/api/cards/:cardId", validateCardId, (request, response) => {
+  const cardId = request.params.cardId;
+  const getCardId = cards.find((card) => card.id === cardId);
   getCardId
     ? response.status(200).json(getCardId)
     : response.status(404).json({ msg: "id not found" });
@@ -52,7 +56,7 @@ app.get("/api/cards/:cardId", (request, response) => {
 //   response.status(201).json({ front });
 // });
 
-// TODO: create a new card with front, back, image and nanoid and generate id with it and push new card to cards.
+// 3. Create a new card with front, back, image and nanoid and generate id with it and push new card to cards.
 // read about: delete and patch and http codes.
 // how to do fetch with post and json.
 // fetch syntax
@@ -79,9 +83,7 @@ app.post("/api/cards", (request, response) => {
   response.status(201).json({ newCard });
 });
 
-// TODO: Next lesson patch and delete.
-
-// PATCH method applies partial modifications to a resource.
+// PATCH method applies partial modifications to a resource send only data to be modified.
 app.patch("/api/cards/:cardId", (request, response) => {
   // const {params: {cardId}, body} = request;
   const {
@@ -93,6 +95,27 @@ app.patch("/api/cards/:cardId", (request, response) => {
       card.id === cardId
         ? {
             ...card,
+            ...body,
+          }
+        : card
+    );
+    response.status(200).json({ cards });
+  } else {
+    response.status(400).json({ msg: "Please enter the correct data" });
+  }
+});
+
+// PUT method replaces all current representations of the target resource with the request payload.
+// Need to send no-modified data and modified data in the body.
+app.put("/api/cards/:cardId", (request, response) => {
+  const {
+    params: { cardId },
+    body,
+  } = request;
+  if (body.front || body.back || body.image) {
+    cards = cards.map((card) =>
+      card.id === cardId
+        ? {
             ...body,
           }
         : card
@@ -122,4 +145,4 @@ app.listen(PORT, () => {
 
 // HOMEWORK 29th March
 // Validation for params | update DELETE and PATCH with validation | unified card.id === cardId function and convert it to middleware function
-// check PUT and PATCH (check difference) and write additional endpoint
+// check PUT and PATCH (check difference) and write additional PUT endpoint
