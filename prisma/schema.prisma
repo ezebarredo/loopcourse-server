@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  posts Post[]
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+// TODO:
+// Model my cards as schema.
+// Read Prisma how to use it and try it if you can make it work.
+// IMPORTANT: after add new model, need to run "npx prisma migrate dev" to create DB tables  
+// model Card
+
+model Level {
+  // 1 to many Sublevels
+  id        Int        @id @default(autoincrement())
+  title     String
+  subLevels SubLevel[]
+}
+
+model SubLevel {
+  // 1 Sublevel to many Card
+  id       Int       @id @default(autoincrement())
+  title    String
+  audio    String
+  level    Level     @relation(fields: [levelId], references: [id])
+  levelId  Int
+  cards    Card[]
+  question Question?
+}
+
+model Card {
+  id         Int      @id @default(autoincrement())
+  front      String
+  back       String
+  image      String
+  subLevel   SubLevel @relation(fields: [subLevelId], references: [id])
+  subLevelId Int
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  answer     String
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+}
+
+model Question {
+  id                Int      @id @default(autoincrement())
+  title             String
+  correctAnswer     String
+  answeredCorrectly Boolean
+  gramarLevel       String
+  userAnswer        String?
+  answers           Answer[]
+  subLevel          SubLevel @relation(fields: [subLevelId], references: [id])
+  subLevelId        Int      @unique
+}
+
+// export type Level = {
+//   id: string;
+//   topLevel: string;
+//   title: string;
+//   audio: string;
+//   cards: Cards;
+//   
+// };
