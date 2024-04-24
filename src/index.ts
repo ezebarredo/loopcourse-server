@@ -87,7 +87,7 @@ app.get("/api/cards/:cardId", validateCardId, (request, response) => {
 // import prisma client
 // /api/cards -> /api/:subLevelId/cards
 // req.params.subLevelId
-app.post("/api/:subLevelId/cards", (request, response) => {
+app.post("/api/:subLevelId/cards", async (request, response) => {
   // const subLevelId = request.params.subLevelId;
 
   const {
@@ -95,7 +95,7 @@ app.post("/api/:subLevelId/cards", (request, response) => {
     body,
   } = request;
 
-  const newCard = prisma.card.create({
+  const newCard = await prisma.card.create({
     data: {
       subLevelId,
       ...body,
