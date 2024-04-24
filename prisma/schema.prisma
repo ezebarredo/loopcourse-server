@@ -59,13 +59,6 @@ model Card {
   subLevelId Int
 }
 
-model Answer {
-  id         Int      @id @default(autoincrement())
-  answer     String
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId Int
-}
-
 model Question {
   id                Int      @id @default(autoincrement())
   title             String
@@ -78,11 +71,9 @@ model Question {
   subLevelId        Int      @unique
 }
 
-// export type Level = {
-//   id: string;
-//   topLevel: string;
-//   title: string;
-//   audio: string;
-//   cards: Cards;
-//   
-// };
+model Answer {
+  id         Int      @id @default(autoincrement())
+  answer     String
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+}

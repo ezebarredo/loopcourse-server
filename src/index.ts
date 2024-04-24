@@ -87,59 +87,21 @@ app.get("/api/cards/:cardId", validateCardId, (request, response) => {
 // import prisma client
 // /api/cards -> /api/:subLevelId/cards
 // req.params.subLevelId
-app.post("/api/:subLevelId/cards", async (request, response) => {
-  const subLevelId = request.params.subLevelId;
-  console.log(subLevelId);
-  const { body } = request;
-  let newCard = { ...body, id: nanoid() };
-  // cards.push(newCard); // prisma.create...
-  async function main() {
-    newCard = await prisma.level.create({
-      data: {
-        title: "Level 1",
-        subLevels: {
-          create: {
-            title: "Sublevel 1",
-            audio: "Audio level 1",
-            cards: {
-              create: cards,
-            },
-            question: {
-              create: {
-                title: "She ______ funny.",
-                answers: {
-                  create: [
-                    { answer: "is" },
-                    { answer: "am" },
-                    { answer: "are" },
-                  ],
-                },
-                correctAnswer: "is",
-                answeredCorrectly: false,
-                gramarLevel: "1.1 Subject Pronouns",
-                userAnswer: null,
-              },
-            },
-          },
-        },
-      },
-      include: {
-        subLevels: {
-          include: { cards: true },
-        },
-      },
-    });
-    console.log({ newCard });
-  }
-  main()
-    .then(async () => {
-      await prisma.$disconnect();
-    })
-    .catch(async (e) => {
-      console.error(e);
-      await prisma.$disconnect();
-      process.exit(1);
-    });
+app.post("/api/:subLevelId/cards", (request, response) => {
+  // const subLevelId = request.params.subLevelId;
+
+  const {
+    params: { subLevelId },
+    body,
+  } = request;
+
+  const newCard = prisma.card.create({
+    data: {
+      subLevelId,
+      ...body,
+    },
+  });
+  console.log({ subLevelId, body });
   response.status(201).json({ newCard });
 });
 
