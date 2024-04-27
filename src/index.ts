@@ -89,7 +89,6 @@ app.get("/api/cards/:cardId", validateCardId, (request, response) => {
 // req.params.subLevelId
 app.post("/api/:subLevelId/cards", async (request, response) => {
   // const subLevelId = request.params.subLevelId;
-
   const {
     params: { subLevelId },
     body,
@@ -100,9 +99,27 @@ app.post("/api/:subLevelId/cards", async (request, response) => {
       subLevelId,
       ...body,
     },
+    select: { id: true },
   });
-  console.log({ subLevelId, body });
+
   response.status(201).json({ newCard });
+});
+
+app.post("/api/:levelId/sub-levels", async (request, response) => {
+  const {
+    params: { levelId },
+    body,
+  } = request;
+
+  const newSubLevel = await prisma.subLevel.create({
+    data: {
+      // we always connect with IDs
+      level: { connect: { id: Number(levelId) } },
+      ...body,
+    },
+  });
+
+  response.status(201).json({ newSubLevel });
 });
 
 // EXPRESS
