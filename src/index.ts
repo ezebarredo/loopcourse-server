@@ -105,22 +105,6 @@ app.post("/api/:subLevelId/cards", async (request, response) => {
   response.status(201).json({ newCard });
 });
 
-// Question
-app.post("/api/:subLevelId/question", async (request, response) => {
-  const {
-    params: { subLevelId },
-    body,
-  } = request;
-
-  const newQuestion = await prisma.question.create({
-    data: {
-      subLevel: { connect: { id: Number(subLevelId) } },
-      ...body,
-    },
-  });
-  response.status(201).json({ newQuestion });
-});
-
 //Create new sublevel
 app.post("/api/:levelId/sub-levels", async (request, response) => {
   const {
@@ -137,6 +121,52 @@ app.post("/api/:levelId/sub-levels", async (request, response) => {
   });
 
   response.status(201).json({ newSubLevel });
+});
+
+// Create a new Question
+app.post("/api/:subLevelId/questions", async (request, response) => {
+  const {
+    params: { subLevelId },
+    body,
+  } = request;
+
+  const newQuestion = await prisma.question.create({
+    data: {
+      subLevelId: Number(subLevelId),
+      ...body,
+    },
+  });
+  response.status(201).json({ newQuestion });
+});
+
+// Create new answer
+app.post("/api/:questionId/answers", async (request, response) => {
+  const {
+    params: { questionId },
+    body,
+  } = request;
+
+  const newAnswer = await prisma.answer.create({
+    data: {
+      questionId: Number(questionId),
+      ...body,
+    },
+  });
+  response.status(201).json({ newAnswer });
+});
+
+app.get("/api/:questionId", async (request, response) => {
+  const {
+    params: { questionId },
+  } = request;
+
+  const getQuestion = await prisma.question.findUnique({
+    where: { id: Number(questionId) },
+    include: {
+      answers: true,
+    },
+  });
+  response.status(200).json({ getQuestion });
 });
 
 // EXPRESS
