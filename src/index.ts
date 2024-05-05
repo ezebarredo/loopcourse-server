@@ -155,7 +155,7 @@ app.post("/api/:questionId/answers", async (request, response) => {
   response.status(201).json({ newAnswer });
 });
 
-app.get("/api/:questionId", async (request, response) => {
+app.get("/api/sub-levels/:questionId", async (request, response) => {
   const {
     params: { questionId },
   } = request;
@@ -167,6 +167,17 @@ app.get("/api/:questionId", async (request, response) => {
     },
   });
   response.status(200).json({ getQuestion });
+});
+
+app.get("/api/levels/:levelId", async (request, response) => {
+  const {
+    params: { levelId },
+  } = request;
+
+  const getLevel = await prisma.level.findUnique({
+    where: { id: Number(levelId) },
+  });
+  response.status(200).json({ getLevel });
 });
 
 // EXPRESS
