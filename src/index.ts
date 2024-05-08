@@ -87,6 +87,8 @@ app.get("/api/cards/:cardId", validateCardId, (request, response) => {
 // import prisma client
 // /api/cards -> /api/:subLevelId/cards
 // req.params.subLevelId
+
+// Create new card
 app.post("/api/:subLevelId/cards", async (request, response) => {
   // request.params.subLevelId;
   const {
@@ -103,6 +105,21 @@ app.post("/api/:subLevelId/cards", async (request, response) => {
   });
 
   response.status(201).json({ newCard });
+});
+
+//Create new level
+app.post("/api/:levelId", async (request, response) => {
+  const {
+    params: { levelId },
+    body,
+  } = request;
+
+  const newLevel = await prisma.level.create({
+    data: {
+      title: body.title,
+    },
+  });
+  response.status(201).json({ newLevel });
 });
 
 //Create new sublevel
@@ -155,6 +172,7 @@ app.post("/api/:questionId/answers", async (request, response) => {
   response.status(201).json({ newAnswer });
 });
 
+//Get question
 app.get("/api/sub-levels/:questionId", async (request, response) => {
   const {
     params: { questionId },
@@ -169,6 +187,7 @@ app.get("/api/sub-levels/:questionId", async (request, response) => {
   response.status(200).json({ getQuestion });
 });
 
+//get Level
 app.get("/api/levels/:levelId", async (request, response) => {
   const {
     params: { levelId },
