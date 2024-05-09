@@ -1,5 +1,5 @@
-import LevelUI from "../components/level";
+import LevelCreate from "../components/LevelCreate";
 
 export default function App() {
-  return <LevelUI />;
+  return <LevelCreate />;
 }

@@ -39,7 +39,6 @@ app.get("/hello", (request, response, next) => {
 // API 2 | GET cards
 // 1. Copy file cards.js from Next.js app into server project and import here.
 //  GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
-//
 app.get("/api/cards", (request, response, next) => {
   response.status(200).json({ cards });
 });
@@ -87,6 +86,8 @@ app.get("/api/cards/:cardId", validateCardId, (request, response) => {
 // import prisma client
 // /api/cards -> /api/:subLevelId/cards
 // req.params.subLevelId
+
+//POST
 
 // Create new card
 app.post("/api/:subLevelId/cards", async (request, response) => {
@@ -172,6 +173,8 @@ app.post("/api/:questionId/answers", async (request, response) => {
   response.status(201).json({ newAnswer });
 });
 
+//GET
+
 //Get question
 app.get("/api/sub-levels/:questionId", async (request, response) => {
   const {
@@ -197,6 +200,24 @@ app.get("/api/levels/:levelId", async (request, response) => {
     where: { id: Number(levelId) },
   });
   response.status(200).json({ getLevel });
+});
+
+// -practice prisma GET.
+// -sublevel with questions and answers. Try it!
+//
+//get subLevel
+TODO: app.get("/api/sublevels/:sublevelId", async (request, response) => {
+  const {
+    params: { sublevelId },
+  } = request;
+
+  const getSublevel = await prisma.subLevel.findUnique({
+    where: { id: Number(sublevelId) },
+    include: {
+      question: { include: { answers: true } },
+    },
+  });
+  response.status(200).json({ getSublevel });
 });
 
 // EXPRESS

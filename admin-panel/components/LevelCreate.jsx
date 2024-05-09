@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "/src/App.css";
+import SubLevelCreate from "./SubLevelCreate";
 
-export default function LevelUI() {
+let levelId = "";
+
+export default function LevelCreate() {
   const [data, setData] = useState(null);
   const [levelTitle, setlevelTitle] = useState("");
 
@@ -37,13 +40,15 @@ export default function LevelUI() {
         <form onSubmit={handleSubmitLevel}>
           <label>
             Enter a level title to be created:
+            <br />
             <input type="text" value={levelTitle} onChange={handleLevelTitle} />
             <button type="submit">Submit</button>
           </label>
-          <p>{data ? `New level create with title: ${data}` : ""}</p>
+          {data && <p>New level created with title:{data}</p>}
         </form>
+        <br />
+        <SubLevelCreate />
       </div>
-      <p className="read-the-docs"></p>
     </>
   );
 }
