@@ -1,5 +1,5 @@
-import LevelCreate from "../components/LevelCreate";
+import AdminPanel from "../components/AdminPanel";
 
 export default function App() {
-  return <LevelCreate />;
+  return <AdminPanel />;
 }

@@ -31,6 +31,13 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(bodyParser.json());
 
+// Classic pattern for REST API creation
+// GET /api/levels -- ALL LEVELS
+// GET /api/levels/:id -- ONE LEVEL
+// POST /api/levels -- CREATE
+// PUT/PATCH /api/levels/:id -- UPDATE
+// DELETE /api/levels/:id -- DELETE by id
+
 // API 1 | GET hello world
 app.get("/hello", (request, response, next) => {
   response.json({ msg: "Hello World" });
@@ -109,11 +116,8 @@ app.post("/api/:subLevelId/cards", async (request, response) => {
 });
 
 //Create new level
-app.post("/api/:levelId", async (request, response) => {
-  const {
-    params: { levelId },
-    body,
-  } = request;
+app.post("/api/levels", async (request, response) => {
+  const { body } = request;
 
   const newLevel = await prisma.level.create({
     data: {
@@ -124,20 +128,19 @@ app.post("/api/:levelId", async (request, response) => {
 });
 
 //Create new sublevel
-app.post("/api/:levelId/sub-levels", async (request, response) => {
+app.post("/api/levels/:id/sub-levels", async (request, response) => {
   const {
-    params: { levelId },
+    params: { id },
     body,
   } = request;
   //
   const newSubLevel = await prisma.subLevel.create({
     data: {
       // we always connect with IDs
-      level: { connect: { id: Number(levelId) } },
+      level: { connect: { id: Number(id) } },
       ...body,
     },
   });
-
   response.status(201).json({ newSubLevel });
 });
 
