@@ -6,7 +6,6 @@ export default function Footer() {
         position: "fixed",
         color: "white",
         bottom: "0",
-        left: "0",
         background: "grey",
         textAlign: "center",
         padding: "10px 0",

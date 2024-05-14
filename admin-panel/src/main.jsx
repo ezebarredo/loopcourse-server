@@ -2,17 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPageLayout from "../components/LandingPageLayout.jsx";
-import Nav from "../components/nav/nav.jsx";
-import Home from "../components/nav/Home.jsx";
-import About from "../components/nav/About.jsx";
-import Contact from "../components/nav/Contact.jsx";
-import AdminPanel from "../components/AdminPanel.jsx";
+import Layout from "./components/Layout.jsx";
+import Home from "./components/nav/Home.jsx";
+import About from "./components/nav/About.jsx";
+import Contact from "./components/nav/Contact.jsx";
+import AdminPanel from "./components/AdminPanel.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Nav />,
+    element: <Layout />,
     children: [
       {
         path: "/",
@@ -28,7 +27,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     path: "/admin/dashboard",
     element: <AdminPanel />,
