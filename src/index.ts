@@ -54,7 +54,10 @@ app.get("/api/cards", (request, response, next) => {
 // 2. Make another API: /api/cards/:cardId -- SINGLE CARD
 //
 app.get("/api/cards/:cardId", validateCardId, (request, response) => {
-  const cardId = request.params.cardId;
+  // const cardId = request.params.cardId;
+  const {
+    params: { cardId },
+  } = request;
   const getCardId = cards.find((card) => card.id === cardId);
   getCardId
     ? response.status(200).json(getCardId)
@@ -193,7 +196,7 @@ app.get("/api/sub-levels/:questionId", async (request, response) => {
   response.status(200).json({ getQuestion });
 });
 
-//get Level
+//get 1 Level
 app.get("/api/levels/:levelId", async (request, response) => {
   const {
     params: { levelId },
@@ -203,6 +206,12 @@ app.get("/api/levels/:levelId", async (request, response) => {
     where: { id: Number(levelId) },
   });
   response.status(200).json({ getLevel });
+});
+
+// GET all levels
+app.get("/api/levels", async (request, response) => {
+  const getAllLevels = await prisma.level.findMany();
+  response.status(200).json({ getAllLevels });
 });
 
 // -practice prisma GET.
