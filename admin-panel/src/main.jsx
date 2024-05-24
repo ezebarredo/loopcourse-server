@@ -6,7 +6,10 @@ import Layout from "./components/Layout.jsx";
 import Home from "./components/nav/Home.jsx";
 import About from "./components/nav/About.jsx";
 import Contact from "./components/nav/Contact.jsx";
-import AdminPanel from "./components/AdminPanel.jsx";
+import AdminLayout from "./components/adminPanel/AdminLayout.jsx";
+import AdminHome from "./components/adminPanel/AdminHome.jsx";
+import AdminLevel from "./components/adminPanel/AdminLevel.jsx";
+import AdminLevels from "./components/adminPanel/AdminLevels.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/dashboard",
-    element: <AdminPanel />,
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin/dashboard", element: <AdminHome /> },
+      { path: "/admin/dashboard/levels", element: <AdminLevels /> },
+      { path: "/admin/dashboard/levels/:levelId", element: <AdminLevel /> },
+    ],
   },
 ]);
 

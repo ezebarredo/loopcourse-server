@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 export default function Nav() {
   return (
     <>
-      <div
-        style={{
-          padding: "20px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <Link to={"/"}>Home</Link>
-        <Link to={"/about"}>About</Link>
-        <Link to={"/contact"}>Contact</Link>
+      <div className="topnav">
+        <Link to={"/"} className="nav-link">
+          Home
+        </Link>
+        <Link to={"/about"} className="nav-link">
+          About
+        </Link>
+        <Link to={"/admin/dashboard"} className="nav-link">
+          Admin Panel
+        </Link>
+        <Link to={"/contact"} className="nav-link">
+          Contact
+        </Link>
       </div>
     </>
   );
