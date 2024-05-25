@@ -196,7 +196,13 @@ app.get("/api/sub-levels/:questionId", async (request, response) => {
   response.status(200).json({ getQuestion });
 });
 
-//get 1 Level
+// GET all levels
+app.get("/api/levels", async (request, response) => {
+  const getAllLevels = await prisma.level.findMany();
+  response.status(200).json({ getAllLevels });
+});
+
+//get 1 Level and 1 sublevel
 app.get("/api/levels/:levelId", async (request, response) => {
   const {
     params: { levelId },
@@ -204,20 +210,15 @@ app.get("/api/levels/:levelId", async (request, response) => {
 
   const getLevel = await prisma.level.findUnique({
     where: { id: Number(levelId) },
+    include: {
+      subLevels: true,
+    },
   });
   response.status(200).json({ getLevel });
 });
 
-// GET all levels
-app.get("/api/levels", async (request, response) => {
-  const getAllLevels = await prisma.level.findMany();
-  response.status(200).json({ getAllLevels });
-});
-
-// -practice prisma GET.
-// -sublevel with questions and answers. Try it!
-//
-//get subLevel
+// practice prisma GET.
+//get subLevel with cards, questions and answers
 TODO: app.get("/api/sublevels/:sublevelId", async (request, response) => {
   const {
     params: { sublevelId },
@@ -227,6 +228,7 @@ TODO: app.get("/api/sublevels/:sublevelId", async (request, response) => {
     where: { id: Number(sublevelId) },
     include: {
       question: { include: { answers: true } },
+      cards: true,
     },
   });
   response.status(200).json({ getSublevel });

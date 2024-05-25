@@ -36,11 +36,11 @@ export default function AdminLevels() {
               <li key={id}>
                 <i className="bx bx-group" />
                 <span className="info">
-                  <h4 style={{ color: "black" }}>
+                  <h5 style={{ color: "black" }}>
                     id: {id}
                     <br />
                     Title: {title}
-                  </h4>{" "}
+                  </h5>{" "}
                   : ""
                 </span>
               </li>

@@ -10,6 +10,7 @@ import AdminLayout from "./components/adminPanel/AdminLayout.jsx";
 import AdminHome from "./components/adminPanel/AdminHome.jsx";
 import AdminLevel from "./components/adminPanel/AdminLevel.jsx";
 import AdminLevels from "./components/adminPanel/AdminLevels.jsx";
+import AdminSublevel from "./components/adminPanel/AdminSublevel.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       { path: "/admin/dashboard", element: <AdminHome /> },
       { path: "/admin/dashboard/levels", element: <AdminLevels /> },
       { path: "/admin/dashboard/levels/:levelId", element: <AdminLevel /> },
+      {
+        path: "/admin/dashboard/sublevels/:sublevelId",
+        element: <AdminSublevel />,
+      },
     ],
   },
 ]);

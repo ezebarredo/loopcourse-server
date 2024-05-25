@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function AdminLevel() {
   let { levelId } = useParams();
-  const [level, setlevel] = useState(null);
+  const [level, setLevel] = useState(null);
 
   useEffect(() => {
     const getApiLevel = `http://localhost:4000/api/levels/${levelId}`;
@@ -15,7 +15,9 @@ export default function AdminLevel() {
           throw new Error("Network response failed");
         }
         const data = await response.json();
-        setlevel(data.getLevel.title);
+        setLevel(data.getLevel);
+        console.log(data.getLevel);
+        // console.log(data.getLevel.subLevels);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -27,12 +29,26 @@ export default function AdminLevel() {
     <>
       {/*============= cards start ===============*/}
       <ul className="cards">
-        <li>
-          <i className="bx bx-group" />
-          <span className="info">
-            <h4 style={{ color: "black" }}>This is: {level}</h4> : ""
-          </span>
-        </li>
+        {level &&
+          level.subLevels.map(({ id, title, audio }) => {
+            return (
+              <li key={id}>
+                <i className="bx bx-group" />
+                <span className="info">
+                  <h4 style={{ color: "black" }}>
+                    id: {id}
+                    <br />
+                    {level.title}
+                    <br />
+                    {title}
+                    <br />
+                    {audio}
+                  </h4>{" "}
+                  : ""
+                </span>
+              </li>
+            );
+          })}
       </ul>
       {/*============= cards close ===============*/}
     </>
