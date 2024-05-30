@@ -5,19 +5,21 @@ import { useState, useEffect } from "react";
 export default function AdminLevel() {
   let { levelId } = useParams();
   const [level, setLevel] = useState(null);
+  const [levelName, setLevelName] = useState(null);
 
+  const getApiLevel = `http://localhost:4000/api/levels/${levelId}`;
+
+  // run call function, when (dependency)
   useEffect(() => {
-    const getApiLevel = `http://localhost:4000/api/levels/${levelId}`;
     const asyncFn = async () => {
       try {
         const response = await fetch(getApiLevel);
         if (!response.ok) {
           throw new Error("Network response failed");
         }
+
         const data = await response.json();
         setLevel(data.getLevel);
-        console.log(data.getLevel);
-        // console.log(data.getLevel.subLevels);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -25,8 +27,88 @@ export default function AdminLevel() {
     asyncFn();
   }, [levelId]);
 
+  const patchLevel = async () => {
+    try {
+      const response = await fetch(getApiLevel, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: level.title,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setLevelName(level.title);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   const asyncFn = async () => {
+  //     try {
+  //       const response = await fetch(getApiLevel, {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           title: level.title,
+  //         }),
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   };
+  //   asyncFn();
+  // }, [level]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`The name you entered was: ${level.title}`);
+    patchLevel();
+  };
+
+  const handleLevelTitleChange = (e) => {
+    const title = e.target.value;
+    setLevel((state) => ({
+      ...state,
+      // title: state.title,
+      title,
+    }));
+  };
+
   return (
     <>
+      <p style={{ color: "black" }}>Enter a new Level name </p>
+      {level && (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={level.title}
+            onChange={handleLevelTitleChange}
+          />
+          <input type="submit" />
+        </form>
+      )}
+      <h4 style={{ color: "black" }}>
+        {levelName && `New Level Name: ${levelName} ✔️`}
+      </h4>
+
       {/*============= cards start ===============*/}
       <ul className="cards">
         {level &&
@@ -43,8 +125,7 @@ export default function AdminLevel() {
                     {title}
                     <br />
                     {audio}
-                  </h4>{" "}
-                  : ""
+                  </h4>
                 </span>
               </li>
             );

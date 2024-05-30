@@ -16,7 +16,7 @@ let cards = require("../data/cards.js");
 
 // Middleware as callback function
 const validateCardId = function (request, response, next) {
-  console.log("Using Middleware ValidateCardId");
+  // console.log("Using Middleware ValidateCardId");
   const {
     params: { cardId },
   } = request;
@@ -217,22 +217,26 @@ app.get("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ getLevel });
 });
 
+// TODO:
 // practice prisma GET.
 //get subLevel with cards, questions and answers
-TODO: app.get("/api/sublevels/:sublevelId", async (request, response) => {
-  const {
-    params: { sublevelId },
-  } = request;
+app.get(
+  "/api/levels/:levelId/sublevels/:sublevelId",
+  async (request, response) => {
+    const {
+      params: { levelId, sublevelId },
+    } = request;
 
-  const getSublevel = await prisma.subLevel.findUnique({
-    where: { id: Number(sublevelId) },
-    include: {
-      question: { include: { answers: true } },
-      cards: true,
-    },
-  });
-  response.status(200).json({ getSublevel });
-});
+    const getSublevel = await prisma.subLevel.findUnique({
+      where: { id: Number(sublevelId) },
+      include: {
+        question: { include: { answers: true } },
+        cards: true,
+      },
+    });
+    response.status(200).json({ getSublevel });
+  }
+);
 
 // EXPRESS
 // app.post("/api/cards", (request, response) => {
@@ -263,6 +267,39 @@ app.patch("/api/cards/:cardId", validateCardId, (request, response) => {
     response.status(400).json({ msg: "Please enter the correct data" });
   }
 });
+
+// TODO: patch level, sublevel, cards, questions and answers
+app.patch("/api/levels/:levelId", async (request, response) => {
+  const {
+    params: { levelId },
+    body,
+  } = request;
+
+  const updateLevelInfo = await prisma.level.update({
+    where: { id: Number(levelId) },
+    data: {
+      title: body.title,
+    },
+  });
+  response.status(200).json({ updateLevelInfo });
+});
+
+//PATCH sublevel title and audio
+app.patch(
+  "/api/levels/:levelId/sublevels/:sublevelId",
+  async (request, response) => {
+    const {
+      params: { levelId, sublevelId },
+      body,
+    } = request;
+
+    const updateSublevelInfo = await prisma.subLevel.update({
+      where: { id: Number(sublevelId) },
+      data: { title: body.title, audio: body.audio },
+    });
+    response.status(200).json({ updateSublevelInfo });
+  }
+);
 
 // PUT method replaces all current representations of the target resource with the request payload.
 // For example: Need to send no-modified data and modified data in the body.

@@ -5,7 +5,6 @@ export default function AdminHome() {
     <>
       <div className="header">
         <h1>Dashboard</h1>
-        <ul className="breadcrumb"></ul>
       </div>
       {/*============= cards start ===============*/}
       <ul className="cards"></ul>

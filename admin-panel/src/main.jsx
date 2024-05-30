@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: "/admin/dashboard/levels", element: <AdminLevels /> },
       { path: "/admin/dashboard/levels/:levelId", element: <AdminLevel /> },
       {
-        path: "/admin/dashboard/sublevels/:sublevelId",
+        path: "/admin/dashboard/levels/:levelId/sublevels/:sublevelId",
         element: <AdminSublevel />,
       },
     ],

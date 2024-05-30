@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 
 // Sublevels, cards, questions and answers
 export default function AdminLevel() {
-  let { sublevelId } = useParams();
+  let { levelId, sublevelId } = useParams();
   const [subLevel, setSubLevel] = useState(null);
 
   useEffect(() => {
-    const getApiSubLevel = `http://localhost:4000/api/sublevels/${sublevelId}`;
+    const getApiSubLevel = `http://localhost:4000/api/levels/${levelId}/sublevels/${sublevelId}`;
     const asyncFn = async () => {
       try {
         const response = await fetch(getApiSubLevel);
@@ -17,16 +17,37 @@ export default function AdminLevel() {
         }
         const data = await response.json();
         setSubLevel(data.getSublevel);
-        console.log(data.getSublevel.title);
+        console.log(data.getSublevel);
       } catch (error) {
         console.error("Error:", error);
       }
     };
     asyncFn();
-  }, [sublevelId]);
+  }, [levelId, sublevelId]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleQuestionTitleChange = (e) => {
+    const title = e.target.value;
+    setSubLevel((state) => ({
+      ...state,
+      question: { ...state.question, title },
+    }));
+  };
 
   return (
     <>
+      {subLevel && (
+        <form onSubmit={handleSubmit}>
+          <input
+            onChange={handleQuestionTitleChange}
+            type="text"
+            value={subLevel.question.title}
+          />
+        </form>
+      )}
       {/*============= cards start ===============*/}
       <ul className="cards">
         {subLevel &&
