@@ -295,8 +295,19 @@ app.patch(
 
     const updateSublevelInfo = await prisma.subLevel.update({
       where: { id: Number(sublevelId) },
-      data: { title: body.title, audio: body.audio },
+      data: {
+        title: body.title,
+        audio: body.audio,
+        cards: {
+          update: body.cards?.map((card) => ({
+            where: { id: card.id }, // testing
+            data: card, // Update all card properties provided in the request
+          })),
+        },
+      },
+      include: { cards: true }, // Include related cards in the response
     });
+
     response.status(200).json({ updateSublevelInfo });
   }
 );
