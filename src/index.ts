@@ -284,7 +284,7 @@ app.patch("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ updateLevelInfo });
 });
 
-//PATCH sublevel title and audio
+//PATCH sublevel title/audio and cards front/back
 app.patch(
   "/api/levels/:levelId/sublevels/:sublevelId",
   async (request, response) => {
