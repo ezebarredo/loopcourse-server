@@ -44,7 +44,6 @@ export default function AdminLevel() {
       }
 
       const data = await response.json();
-      console.log(data);
       setLevelName(level.title);
     } catch (error) {
       console.error("Error:", error);
@@ -79,8 +78,8 @@ export default function AdminLevel() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`The name you entered was: ${level.title}`);
     patchLevel();
+    console.log(`The name you entered was: ${level.title}`);
   };
 
   const handleLevelTitleChange = (e) => {

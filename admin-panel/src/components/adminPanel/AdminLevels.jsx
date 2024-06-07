@@ -5,10 +5,6 @@ export default function AdminLevels() {
   const getApiLevels = "http://localhost:4000/api/levels";
   const [allLevels, setAllLevels] = useState(null);
 
-  // const handleLevelTitle = (event) => {
-  //   setlevelTitle((levelTitle) => event.target.value);
-  // };
-
   useEffect(() => {
     const asyncFn = async () => {
       try {

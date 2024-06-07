@@ -1,5 +1,5 @@
 import "/src/App.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
@@ -8,14 +8,16 @@ function Breadcrumbnav() {
     <Breadcrumb>
       <Breadcrumb.Item active>Home</Breadcrumb.Item>
       <Breadcrumb.Item href="/admin/dashboard/">Dashboard</Breadcrumb.Item>
-      <Breadcrumb.Item href="/admin/dashboard/levels">
-        Get Levels
+      <Breadcrumb.Item href="/admin/dashboard/levels">Levels</Breadcrumb.Item>
+      <Breadcrumb.Item href="/admin/dashboard/levels/1/sublevels">
+        Sublevels
       </Breadcrumb.Item>
     </Breadcrumb>
   );
 }
 
 export default function AdminLayout() {
+  let { levelId } = useParams();
   return (
     <>
       {/* =============Sidebar Start================ */}
@@ -34,7 +36,19 @@ export default function AdminLayout() {
           <li className="active">
             <Link to={"/admin/dashboard/levels"}>
               <i className="bx bx-video" />
-              GET Levels
+              All Levels
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/levels/1/sublevels`}>
+              <i className="bx bx-video" />
+              All SubLevels
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/levels/1/sublevels/1`}>
+              <i className="bx bx-video" />
+              Edit SubLevels
             </Link>
           </li>
         </ul>

@@ -217,8 +217,20 @@ app.get("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ getLevel });
 });
 
-// TODO:
-// practice prisma GET.
+// GET all SubLevels with 1 level
+app.get("/api/levels/:levelId/sublevels", async (request, response) => {
+  const {
+    params: { levelId },
+  } = request;
+  const getAllSublevels = await prisma.level.findUnique({
+    where: { id: Number(levelId) },
+    include: {
+      subLevels: true,
+    },
+  });
+  response.status(200).json({ getAllSublevels });
+});
+
 //get subLevel with cards, questions and answers
 app.get(
   "/api/levels/:levelId/sublevels/:sublevelId",
@@ -269,6 +281,7 @@ app.patch("/api/cards/:cardId", validateCardId, (request, response) => {
 });
 
 // TODO: patch level, sublevel, cards, questions and answers
+// PATCH Level
 app.patch("/api/levels/:levelId", async (request, response) => {
   const {
     params: { levelId },
@@ -298,14 +311,22 @@ app.patch(
       data: {
         title: body.title,
         audio: body.audio,
+        question: {
+          update: {
+            data: {
+              title: body.question.title,
+              answers: body.question.answers,
+            },
+          },
+        },
         cards: {
           update: body.cards?.map((card) => ({
-            where: { id: card.id }, // testing
+            where: { id: Number(sublevelId) }, // testing
             data: card, // Update all card properties provided in the request
           })),
         },
       },
-      include: { cards: true }, // Include related cards in the response
+      include: { cards: true, question: true }, // Include related cards in the response
     });
 
     response.status(200).json({ updateSublevelInfo });
