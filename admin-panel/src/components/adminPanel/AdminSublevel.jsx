@@ -46,6 +46,7 @@ export default function AdminLevel() {
 
       const data = await response.json();
       setSubLevelName(subLevel.title);
+      console.log(data);
     } catch (error) {
       console.log("Error", error);
     }
@@ -89,7 +90,7 @@ export default function AdminLevel() {
       <strong>
         {" "}
         <p style={{ color: "black", marginBottom: "10px" }}>
-          Enter a new Sublevel, Audio or Question name:{" "}
+          Enter a new Sublevel or Audio or Question name:{" "}
         </p>
       </strong>
       {subLevel && (

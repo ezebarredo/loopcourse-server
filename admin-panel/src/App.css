@@ -801,3 +801,7 @@ main .bottom_data .reminders .task_list li.uncomplete {
 .nav-link:hover {
   color: #2f169c;
 }
+
+.breadcrumb:hover {
+  color: #2f169c;
+}

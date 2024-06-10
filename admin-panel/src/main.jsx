@@ -12,6 +12,8 @@ import AdminLevel from "./components/adminPanel/AdminLevel.jsx";
 import AdminLevels from "./components/adminPanel/AdminLevels.jsx";
 import AdminSublevel from "./components/adminPanel/AdminSublevel.jsx";
 import AdminSublevels from "./components/adminPanel/AdminSublevels.jsx";
+import AdminCards from "./components/adminPanel/AdminCards.jsx";
+import AdminCard from "./components/adminPanel/AdminCard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard/levels/:levelId/sublevels/:sublevelId",
         element: <AdminSublevel />,
+      },
+      {
+        path: "/admin/dashboard/cards",
+        element: <AdminCards />,
+      },
+      {
+        path: "/admin/dashboard/cards/:cardId",
+        element: <AdminCard />,
       },
     ],
   },

@@ -16,7 +16,6 @@ let cards = require("../data/cards.js");
 
 // Middleware as callback function
 const validateCardId = function (request, response, next) {
-  // console.log("Using Middleware ValidateCardId");
   const {
     params: { cardId },
   } = request;
@@ -31,7 +30,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(bodyParser.json());
 
-// Classic pattern for REST API creation
+// Classic pattern for REST API creation:
 // GET /api/levels -- ALL LEVELS
 // GET /api/levels/:id -- ONE LEVEL
 // POST /api/levels -- CREATE
@@ -53,16 +52,16 @@ app.get("/api/cards", (request, response, next) => {
 // API 3
 // 2. Make another API: /api/cards/:cardId -- SINGLE CARD
 //
-app.get("/api/cards/:cardId", validateCardId, (request, response) => {
-  // const cardId = request.params.cardId;
-  const {
-    params: { cardId },
-  } = request;
-  const getCardId = cards.find((card) => card.id === cardId);
-  getCardId
-    ? response.status(200).json(getCardId)
-    : response.status(404).json({ msg: "id not found" });
-});
+// app.get("/api/cards/:cardId", validateCardId, (request, response) => {
+//   // const cardId = request.params.cardId;
+//   const {
+//     params: { cardId },
+//   } = request;
+//   const getCardId = cards.find((card) => card.id === cardId);
+//   getCardId
+//     ? response.status(200).json(getCardId)
+//     : response.status(404).json({ msg: "id not found" });
+// });
 
 // Example POST
 // app.post("/api/cards", (request, response) => {
@@ -118,7 +117,7 @@ app.post("/api/:subLevelId/cards", async (request, response) => {
   response.status(201).json({ newCard });
 });
 
-//Create new level
+// Create new level
 app.post("/api/levels", async (request, response) => {
   const { body } = request;
 
@@ -217,7 +216,7 @@ app.get("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ getLevel });
 });
 
-// GET all SubLevels with 1 level
+// GET 1 Level with all SubLevels
 app.get("/api/levels/:levelId/sublevels", async (request, response) => {
   const {
     params: { levelId },
@@ -231,7 +230,7 @@ app.get("/api/levels/:levelId/sublevels", async (request, response) => {
   response.status(200).json({ getAllSublevels });
 });
 
-//get subLevel with cards, questions and answers
+//GET 1 subLevel with cards, questions and answers
 app.get(
   "/api/levels/:levelId/sublevels/:sublevelId",
   async (request, response) => {
@@ -259,29 +258,30 @@ app.get(
 // });
 
 // PATCH method applies partial modifications to a resource send only data to be modified.
-app.patch("/api/cards/:cardId", validateCardId, (request, response) => {
-  // const {params: {cardId}, body} = request;
-  const {
-    params: { cardId },
-    body,
-  } = request;
-  if (body.front || body.back || body.image) {
-    cards = cards.map((card) =>
-      card.id === cardId
-        ? {
-            ...card,
-            ...body,
-          }
-        : card
-    );
-    response.status(200).json({ cards });
-  } else {
-    response.status(400).json({ msg: "Please enter the correct data" });
-  }
-});
+// app.patch("/api/cards/:cardId", validateCardId, (request, response) => {
+//   // const {params: {cardId}, body} = request;
+//   const {
+//     params: { cardId },
+//     body,
+//   } = request;
+//   if (body.front || body.back || body.image) {
+//     cards = cards.map((card) =>
+//       card.id === cardId
+//         ? {
+//             ...card,
+//             ...body,
+//           }
+//         : card
+//     );
+//     response.status(200).json({ cards });
+//   } else {
+//     response.status(400).json({ msg: "Please enter the correct data" });
+//   }
+// });
 
 // TODO: patch level, sublevel, cards, questions and answers
-// PATCH Level
+
+// PATCH 1 Level
 app.patch("/api/levels/:levelId", async (request, response) => {
   const {
     params: { levelId },
@@ -297,7 +297,7 @@ app.patch("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ updateLevelInfo });
 });
 
-//PATCH sublevel title/audio and cards front/back
+//PATCH 1 Sublevel with title/audio and cards front/back.
 app.patch(
   "/api/levels/:levelId/sublevels/:sublevelId",
   async (request, response) => {
@@ -332,6 +332,42 @@ app.patch(
     response.status(200).json({ updateSublevelInfo });
   }
 );
+
+// GET all cards
+app.get("/api/cards", async (request, response) => {
+  const getAllCards = await prisma.card.findMany();
+  response.status(200).json({ getAllCards });
+});
+
+//TODO: Continue with cardId in the frontEnd
+//GET 1 Card with cardId
+app.get("/api/cards/:cardId", async (request, response) => {
+  const {
+    params: { cardId },
+  } = request;
+
+  const getCard = await prisma.card.findUnique({
+    where: { id: Number(cardId) },
+  });
+  response.status(200).json({ getCard });
+});
+
+// PATCH 1 Card with cardId
+app.patch("/api/cards/:cardId", async (request, response) => {
+  const {
+    params: { cardId },
+    body,
+  } = request;
+
+  const updateCardInfo = await prisma.card.update({
+    where: { id: Number(cardId) },
+    data: {
+      front: body.front,
+      back: body.back,
+    },
+  });
+  response.status(200).json({ updateCardInfo });
+});
 
 // PUT method replaces all current representations of the target resource with the request payload.
 // For example: Need to send no-modified data and modified data in the body.

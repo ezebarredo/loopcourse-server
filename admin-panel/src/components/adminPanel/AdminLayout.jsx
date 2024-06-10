@@ -1,17 +1,30 @@
 import "/src/App.css";
 import { Link, Outlet, useParams } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
 function Breadcrumbnav() {
   return (
     <Breadcrumb>
-      <Breadcrumb.Item active>Home</Breadcrumb.Item>
-      <Breadcrumb.Item href="/admin/dashboard/">Dashboard</Breadcrumb.Item>
-      <Breadcrumb.Item href="/admin/dashboard/levels">Levels</Breadcrumb.Item>
-      <Breadcrumb.Item href="/admin/dashboard/levels/1/sublevels">
-        Sublevels
-      </Breadcrumb.Item>
+      <div style={{ display: "flex", gap: "5px" }}>
+        <Breadcrumb.Item href="/admin/dashboard/">Dashboard /</Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/levels">
+          Levels /
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/levels/1/sublevels">
+          Sublevels /
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/cards">Cards /</Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/levels/1">
+          Edit Level /
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/levels/1/sublevels/1">
+          Edit Sublevel /
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/cards/1">
+          Edit Card
+        </Breadcrumb.Item>
+      </div>
     </Breadcrumb>
   );
 }
@@ -22,7 +35,6 @@ export default function AdminLayout() {
     <>
       {/* =============Sidebar Start================ */}
       <div className="sidebar">
-        <Breadcrumbnav />
         <Link to={"/admin/dashboard"} className="logo">
           <img src="./img/logo-1.png" alt="" /> Admin<span>Panel</span>
         </Link>
@@ -36,19 +48,37 @@ export default function AdminLayout() {
           <li className="active">
             <Link to={"/admin/dashboard/levels"}>
               <i className="bx bx-video" />
-              All Levels
+              Levels
             </Link>
           </li>
           <li className="active">
             <Link to={`/admin/dashboard/levels/1/sublevels`}>
               <i className="bx bx-video" />
-              All SubLevels
+              Sublevels
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/cards`}>
+              <i className="bx bx-video" />
+              Cards
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/levels/1`}>
+              <i className="bx bx-video" />
+              Edit Level ✏️
             </Link>
           </li>
           <li className="active">
             <Link to={`/admin/dashboard/levels/1/sublevels/1`}>
               <i className="bx bx-video" />
-              Edit SubLevels
+              Edit Sublevel ✏️
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/cards/1`}>
+              <i className="bx bx-video" />
+              Edit Card ✏️
             </Link>
           </li>
         </ul>
@@ -58,6 +88,7 @@ export default function AdminLayout() {
       <div className="content">
         <nav>
           <i className="bx bx-menu" />
+          <Breadcrumbnav />
         </nav>
         {/* NAV bar close */}
         {/* Main Start */}

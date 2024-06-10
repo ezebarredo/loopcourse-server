@@ -86,16 +86,20 @@ export default function AdminLevel() {
     const title = e.target.value;
     setLevel((state) => ({
       ...state,
-      // title: state.title,
       title,
     }));
   };
 
   return (
     <>
-      <p style={{ color: "black" }}>Enter a new Level name </p>
+      <strong>
+        {" "}
+        <p style={{ color: "black", marginBottom: "10px" }}>
+          Enter a new Level name:{" "}
+        </p>
+      </strong>
       {level && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
           <input
             type="text"
             value={level.title}

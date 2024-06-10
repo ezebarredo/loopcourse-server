@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import "/src/App.css";
 
-export default function AdminLevels() {
-  const getApiLevels = "http://localhost:4000/api/levels";
-  const [allLevels, setAllLevels] = useState(null);
+export default function AdminCards() {
+  const getApiCards = "http://localhost:4000/api/cards";
+  const [allCards, setAllCards] = useState(null);
 
   useEffect(() => {
     const asyncFn = async () => {
       try {
-        const response = await fetch(getApiLevels);
+        const response = await fetch(getApiCards);
         if (!response.ok) {
           throw new Error("Network response failed");
         }
         const data = await response.json();
-        setAllLevels(data.getAllLevels);
-        console.log(data.getAllLevels);
+        setAllCards(data.cards);
+        console.log(data.cards);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -27,8 +27,8 @@ export default function AdminLevels() {
       {" "}
       {/*============= cards start ===============*/}
       <ul className="cards">
-        {allLevels &&
-          allLevels.map(({ id, title }) => {
+        {allCards &&
+          allCards.map(({ id, front, back }) => {
             return (
               <li key={id}>
                 <i className="bx bx-group" />
@@ -36,7 +36,10 @@ export default function AdminLevels() {
                   <h4 style={{ color: "black" }}>
                     id: {id}
                     <br />
-                    Title: {title}
+                    Front: {front}
+                    <br />
+                    Back: {back}
+                    <br />
                   </h4>{" "}
                   : ""
                 </span>
