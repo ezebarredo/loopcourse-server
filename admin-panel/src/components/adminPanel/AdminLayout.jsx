@@ -15,6 +15,9 @@ function Breadcrumbnav() {
           Sublevels /
         </Breadcrumb.Item>
         <Breadcrumb.Item href="/admin/dashboard/cards">Cards /</Breadcrumb.Item>
+        <Breadcrumb.Item href="/admin/dashboard/questions/1/answers">
+          Answers /
+        </Breadcrumb.Item>
         <Breadcrumb.Item href="/admin/dashboard/levels/1">
           Edit Level /
         </Breadcrumb.Item>
@@ -61,6 +64,12 @@ export default function AdminLayout() {
             <Link to={`/admin/dashboard/cards`}>
               <i className="bx bx-video" />
               Cards
+            </Link>
+          </li>
+          <li className="active">
+            <Link to={`/admin/dashboard/questions/1/answers`}>
+              <i className="bx bx-video" />
+              Answers
             </Link>
           </li>
           <li className="active">

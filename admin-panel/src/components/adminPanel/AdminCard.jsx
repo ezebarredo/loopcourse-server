@@ -79,16 +79,18 @@ export default function AdminCard() {
       <strong>
         {" "}
         <p style={{ color: "black", marginBottom: "10px" }}>
-          Enter a new card front name:{" "}
+          Enter a new card name:{" "}
         </p>
       </strong>
       {card && (
         <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
+          <p style={{ color: "black" }}>Front card name:</p>
           <input
             type="text"
             value={card.front}
             onChange={handleCardFrontChange}
           />
+          <p style={{ color: "black" }}>Back card name:</p>
           <input
             type="text"
             value={card.back}

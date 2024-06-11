@@ -249,6 +249,31 @@ app.get(
   }
 );
 
+// GET all answers
+app.get("/api/questions/:questionId/answers", async (request, response) => {
+  const getAllAnswers = await prisma.answer.findMany();
+  response.status(200).json({ getAllAnswers });
+});
+
+// PATCH answerId
+app.patch(
+  "/api/questions/:questionid/answers/:answerId",
+  async (request, response) => {
+    const {
+      params: { questionid, answerId },
+      body,
+    } = request;
+
+    const updateAnswerInfo = await prisma.answer.update({
+      where: { id: Number(answerId) },
+      data: {
+        answer: body.answer,
+      },
+    });
+    response.status(200).json({ updateAnswerInfo });
+  }
+);
+
 // EXPRESS
 // app.post("/api/cards", (request, response) => {
 //   const { body } = request;
@@ -339,7 +364,6 @@ app.get("/api/cards", async (request, response) => {
   response.status(200).json({ getAllCards });
 });
 
-//TODO: Continue with cardId in the frontEnd
 //GET 1 Card with cardId
 app.get("/api/cards/:cardId", async (request, response) => {
   const {
