@@ -322,6 +322,10 @@ app.patch("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ updateLevelInfo });
 });
 
+// data: [{ title: 'My first post' }, { title: 'My second post' }],
+// data: body.question.answers
+// where: questionId
+
 //PATCH 1 Sublevel with title/audio and cards front/back.
 app.patch(
   "/api/levels/:levelId/sublevels/:sublevelId",
@@ -340,10 +344,22 @@ app.patch(
           update: {
             data: {
               title: body.question.title,
-              answers: body.question.answers,
+              answers: {
+                update: body.answers?.map((answer) => ({
+                  where: { questionId: body.question.id }, // TODO: Issue looks it's here { id: Number(sublevelId) } doesn't gives error but it doesn't update answer
+                  data: answer,
+                })),
+                // updateMany: {
+                //   where: {
+                //     questionId: body.question.id,
+                //   },
+                //   data: body.question.answers,
+                // },
+              },
             },
           },
         },
+        //TODO: try update answers like with cards
         cards: {
           update: body.cards?.map((card) => ({
             where: { id: Number(sublevelId) }, // testing
@@ -351,9 +367,15 @@ app.patch(
           })),
         },
       },
-      include: { cards: true, question: true }, // Include related cards in the response
+      include: {
+        cards: true,
+        question: {
+          include: {
+            answers: true,
+          },
+        },
+      }, // Include related cards in the response
     });
-
     response.status(200).json({ updateSublevelInfo });
   }
 );

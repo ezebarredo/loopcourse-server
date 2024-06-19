@@ -36,7 +36,11 @@ export default function AdminLevel() {
         body: JSON.stringify({
           title: subLevel.title,
           audio: subLevel.audio,
-          question: { title: subLevel.question.title },
+          question: {
+            id: subLevel.question.id,
+            title: subLevel.question.title,
+            answers: subLevel.question.answers,
+          },
         }),
       });
 
@@ -84,6 +88,19 @@ export default function AdminLevel() {
     }));
   };
 
+  const handleAnswerTitleChange = (e, id) => {
+    const title = e.target.value;
+    setSubLevel((state) => ({
+      ...state,
+      question: {
+        ...state.question,
+        answers: state.question.answers.map((answer) =>
+          answer.id === id ? { ...answer, answer: title } : answer
+        ),
+      },
+    }));
+  };
+
   return (
     <>
       {/* Subtitle, Audio and question title form: */}
@@ -113,6 +130,18 @@ export default function AdminLevel() {
             type="text"
             value={subLevel.question.title}
           />
+          {subLevel.question.answers.map(({ id, answer }) => {
+            return (
+              <li key={id}>
+                <p style={{ color: "black" }}>Answer {id} name:</p>
+                <input
+                  onChange={(e) => handleAnswerTitleChange(e, id)}
+                  type="text"
+                  value={answer}
+                />
+              </li>
+            );
+          })}
           <input type="submit" />
         </form>
       )}
