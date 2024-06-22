@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Sublevels, cards, questions and answers
-export default function AdminLevel() {
+export default function AdminSubLevel() {
   let { levelId, sublevelId } = useParams();
   const [subLevel, setSubLevel] = useState(null);
   const [subLevelName, setSubLevelName] = useState(null);
@@ -19,6 +19,7 @@ export default function AdminLevel() {
         }
         const data = await response.json();
         setSubLevel(data.getSublevel);
+        console.log(data.getSublevel);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -41,6 +42,7 @@ export default function AdminLevel() {
             title: subLevel.question.title,
             answers: subLevel.question.answers,
           },
+          cards: subLevel.cards,
         }),
       });
 
@@ -50,7 +52,6 @@ export default function AdminLevel() {
 
       const data = await response.json();
       setSubLevelName(subLevel.title);
-      console.log(data);
     } catch (error) {
       console.log("Error", error);
     }
@@ -101,48 +102,95 @@ export default function AdminLevel() {
     }));
   };
 
+  const handleFrontTitleChange = (e, id) => {
+    const title = e.target.value;
+    setSubLevel((state) => ({
+      ...state,
+      cards: state.cards.map((card) =>
+        card.id === id ? { ...card, front: title } : card
+      ),
+    }));
+  };
+
   return (
     <>
       {/* Subtitle, Audio and question title form: */}
       <strong>
         {" "}
         <p style={{ color: "black", marginBottom: "10px" }}>
-          Enter a new Sublevel or Audio or Question name:{" "}
+          Edition dashboard:{" "}
         </p>
       </strong>
       {subLevel && (
-        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
-          <p style={{ color: "black" }}>Subtitle name:</p>
-          <input
-            type="text"
-            value={subLevel.title}
-            onChange={handleSublevelTitleChange}
-          />
-          <p style={{ color: "black" }}>Audio name:</p>
-          <input
-            onChange={handleSubLevelAudioChange}
-            type="text"
-            value={subLevel.audio}
-          />
-          <p style={{ color: "black" }}>Question name:</p>
-          <input
-            onChange={handleQuestionTitleChange}
-            type="text"
-            value={subLevel.question.title}
-          />
-          {subLevel.question.answers.map(({ id, answer }) => {
-            return (
-              <li key={id}>
-                <p style={{ color: "black" }}>Answer {id} name:</p>
-                <input
-                  onChange={(e) => handleAnswerTitleChange(e, id)}
-                  type="text"
-                  value={answer}
-                />
-              </li>
-            );
-          })}
-          <input type="submit" />
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <li>
+              <p style={{ color: "black" }}>Subtitle name:</p>
+              <input
+                type="text"
+                value={subLevel.title}
+                onChange={handleSublevelTitleChange}
+              />
+            </li>
+            <li>
+              <p style={{ color: "black" }}>Audio name:</p>
+              <input
+                onChange={handleSubLevelAudioChange}
+                type="text"
+                value={subLevel.audio}
+              />
+            </li>
+            <li>
+              <p style={{ color: "black" }}>Question name:</p>
+              <input
+                onChange={handleQuestionTitleChange}
+                type="text"
+                value={subLevel.question.title}
+              />
+            </li>
+            {/* Asnwer title */}
+            {subLevel.question.answers.map(({ id, answer }) => {
+              return (
+                <li key={id}>
+                  <p style={{ color: "black" }}>Answer {id} name:</p>
+                  <input
+                    onChange={(e) => handleAnswerTitleChange(e, id)}
+                    type="text"
+                    value={answer}
+                  />
+                </li>
+              );
+            })}
+          </div>
+          {/* Card Front Name  */}
+          <br />
+          <strong>
+            <p style={{ color: "black" }}>Cards names:</p>
+          </strong>
+          <br />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "200px 200px 200px 200px 200px",
+              gap: "10px",
+            }}
+          >
+            {subLevel &&
+              subLevel.cards.map(({ id, front }) => {
+                return (
+                  <li key={id}>
+                    <p style={{ color: "black" }}>Card {id} Front name:</p>
+                    <input
+                      onChange={(e) => handleFrontTitleChange(e, id)}
+                      type="text"
+                      value={front}
+                    />
+                    <br />
+                  </li>
+                );
+              })}
+          </div>
+          <button type="submit">Submit</button>
         </form>
       )}
       <h4 style={{ color: "black" }}>

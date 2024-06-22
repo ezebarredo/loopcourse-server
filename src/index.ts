@@ -335,7 +335,27 @@ app.patch(
       body,
     } = request;
 
-    const updateSublevelInfo = await prisma.subLevel.update({
+    // const updateAnswers -> returns an array.
+    // const updateAnswers = [
+    //   prisma.answer.update({ /* query 1 */ }),
+    //   prisma.answer.update({ /* query 2 */ }),
+    //   prisma.answer.update({ /* query 3 */ })
+    // ]
+    const updateAnswers = body.question.answers.map((answer) => {
+      return prisma.answer.update({
+        where: { id: answer.id },
+        data: { answer: answer.answer },
+      });
+    });
+
+    const updateCards = body.cards.map((card) => {
+      return prisma.card.update({
+        where: { id: card.id },
+        data: { front: card.front, back: card.back },
+      });
+    });
+
+    const updateSublevelInfo = prisma.subLevel.update({
       where: { id: Number(sublevelId) },
       data: {
         title: body.title,
@@ -344,27 +364,8 @@ app.patch(
           update: {
             data: {
               title: body.question.title,
-              answers: {
-                update: body.answers?.map((answer) => ({
-                  where: { questionId: body.question.id }, // TODO: Issue looks it's here { id: Number(sublevelId) } doesn't gives error but it doesn't update answer
-                  data: answer,
-                })),
-                // updateMany: {
-                //   where: {
-                //     questionId: body.question.id,
-                //   },
-                //   data: body.question.answers,
-                // },
-              },
             },
           },
-        },
-        //TODO: try update answers like with cards
-        cards: {
-          update: body.cards?.map((card) => ({
-            where: { id: Number(sublevelId) }, // testing
-            data: card, // Update all card properties provided in the request
-          })),
         },
       },
       include: {
@@ -374,9 +375,46 @@ app.patch(
             answers: true,
           },
         },
-      }, // Include related cards in the response
+      },
     });
-    response.status(200).json({ updateSublevelInfo });
+
+    const [
+      subLevelInfo,
+      answer1,
+      answer2,
+      answer3,
+      card1,
+      card2,
+      card3,
+      card4,
+      card5,
+      card6,
+      card7,
+      card8,
+      card9,
+      card10,
+    ] = await prisma.$transaction([
+      updateSublevelInfo,
+      ...updateAnswers,
+      ...updateCards,
+    ]);
+
+    response.status(200).json({
+      subLevelInfo,
+      answer1,
+      answer2,
+      answer3,
+      card1,
+      card2,
+      card3,
+      card4,
+      card5,
+      card6,
+      card7,
+      card8,
+      card9,
+      card10,
+    });
   }
 );
 
