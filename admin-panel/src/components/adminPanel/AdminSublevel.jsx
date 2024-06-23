@@ -112,6 +112,16 @@ export default function AdminSubLevel() {
     }));
   };
 
+  const handleBackTitleChange = (e, id) => {
+    const title = e.target.value;
+    setSubLevel((state) => ({
+      ...state,
+      cards: state.cards.map((card) =>
+        card.id === id ? { ...card, back: title } : card
+      ),
+    }));
+  };
+
   return (
     <>
       {/* Subtitle, Audio and question title form: */}
@@ -176,7 +186,7 @@ export default function AdminSubLevel() {
             }}
           >
             {subLevel &&
-              subLevel.cards.map(({ id, front }) => {
+              subLevel.cards.map(({ id, front, back }) => {
                 return (
                   <li key={id}>
                     <p style={{ color: "black" }}>Card {id} Front name:</p>
@@ -186,10 +196,18 @@ export default function AdminSubLevel() {
                       value={front}
                     />
                     <br />
+                    <p style={{ color: "black" }}>Card {id} Back name:</p>
+                    <input
+                      onChange={(e) => handleBackTitleChange(e, id)}
+                      type="text"
+                      value={back}
+                    />
+                    <br />
                   </li>
                 );
               })}
           </div>
+          <br />
           <button type="submit">Submit</button>
         </form>
       )}

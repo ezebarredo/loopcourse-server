@@ -249,11 +249,11 @@ app.get(
   }
 );
 
-// GET all answers
-app.get("/api/questions/:questionId/answers", async (request, response) => {
-  const getAllAnswers = await prisma.answer.findMany();
-  response.status(200).json({ getAllAnswers });
-});
+// // GET all answers
+// app.get("/api/questions/:questionId/answers", async (request, response) => {
+//   const getAllAnswers = await prisma.answer.findMany();
+//   response.status(200).json({ getAllAnswers });
+// });
 
 // PATCH answerId
 app.patch(
@@ -419,8 +419,13 @@ app.patch(
 );
 
 // GET all cards
-app.get("/api/cards", async (request, response) => {
+app.get("/api/sublevels/:sublevelId/cards", async (request, response) => {
+  const {
+    params: { sublevelId },
+  } = request;
+
   const getAllCards = await prisma.card.findMany();
+
   response.status(200).json({ getAllCards });
 });
 

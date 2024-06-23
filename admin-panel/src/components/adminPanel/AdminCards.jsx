@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "/src/App.css";
 
 export default function AdminCards() {
-  const getApiCards = "http://localhost:4000/api/cards";
+  let { sublevelId } = useParams();
+  const getApiCards = `http://localhost:4000/api/sublevels/${sublevelId}/cards`;
   const [allCards, setAllCards] = useState(null);
 
   useEffect(() => {
@@ -13,8 +15,8 @@ export default function AdminCards() {
           throw new Error("Network response failed");
         }
         const data = await response.json();
-        setAllCards(data.cards);
-        console.log(data.cards);
+        setAllCards(data.getAllCards);
+        console.log(data.getAllCards);
       } catch (error) {
         console.error("Error:", error);
       }
