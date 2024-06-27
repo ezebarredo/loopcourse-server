@@ -172,7 +172,7 @@ export default function AdminSubLevel() {
               );
             })}
           </div>
-          {/* Card Front Name  */}
+          {/* Card Front and Back Name  */}
           <br />
           <strong>
             <p style={{ color: "black" }}>Cards names:</p>
