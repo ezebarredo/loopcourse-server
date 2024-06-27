@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "../../../.."
+	},
+	{
+		"path": "../../../../../loopcourse-next"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "loopcourse-server"
+  }
+}
