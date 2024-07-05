@@ -1,6 +1,6 @@
 export default function Modal({ children, isOpen, onClose }) {
   return isOpen ? (
-    <div>
+    <div className="modal">
       {children}
       <button onClick={onClose}>Close</button>
     </div>

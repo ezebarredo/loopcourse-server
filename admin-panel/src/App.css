@@ -301,16 +301,16 @@ main .cards li {
   padding: 1.8rem;
   background-color: var(--light);
   border-radius: 5px;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   grid-gap: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease-in;
 }
 
-main .cards li:hover {
+/* main .cards li:hover {
   transform: translateY(-10px);
-}
+} */
 
 main .cards li .bx {
   width: 4.5rem;
@@ -804,4 +804,21 @@ main .bottom_data .reminders .task_list li.uncomplete {
 
 .breadcrumb:hover {
   color: #2f169c;
+}
+
+/* Modal */
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: 400px;
+  padding: 1rem;
+  min-height: 250px;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  background-color: white;
+  border: 5px solid rgb(69, 67, 67);
+  border-radius: 15px;
 }

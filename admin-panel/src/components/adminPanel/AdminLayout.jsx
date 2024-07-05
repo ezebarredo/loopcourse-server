@@ -86,7 +86,8 @@ export default function AdminLayout() {
         {/* NAV bar close */}
         {/* Main Start */}
         <main>
-          <Outlet />;{/*============= cards start ===============*/}
+          <Outlet />
+          {/*============= cards start ===============*/}
           <ul className="cards"></ul>
           {/*============= cards close ===============*/}
         </main>

@@ -348,12 +348,12 @@ app.patch(
       });
     });
 
-    const updateCards = body.cards.map((card) => {
-      return prisma.card.update({
-        where: { id: card.id },
-        data: { front: card.front, back: card.back },
-      });
-    });
+    // const updateCards = body.cards.map((card) => {
+    //   return prisma.card.update({
+    //     where: { id: card.id },
+    //     data: { front: card.front, back: card.back },
+    //   });
+    // });
 
     const updateSublevelInfo = prisma.subLevel.update({
       where: { id: Number(sublevelId) },
@@ -369,7 +369,7 @@ app.patch(
         },
       },
       include: {
-        cards: true,
+        // cards: true,
         question: {
           include: {
             answers: true,
@@ -383,20 +383,20 @@ app.patch(
       answer1,
       answer2,
       answer3,
-      card1,
-      card2,
-      card3,
-      card4,
-      card5,
-      card6,
-      card7,
-      card8,
-      card9,
-      card10,
+      // card1,
+      // card2,
+      // card3,
+      // card4,
+      // card5,
+      // card6,
+      // card7,
+      // card8,
+      // card9,
+      // card10,
     ] = await prisma.$transaction([
       updateSublevelInfo,
       ...updateAnswers,
-      ...updateCards,
+      // ...updateCards,
     ]);
 
     response.status(200).json({
@@ -404,19 +404,59 @@ app.patch(
       answer1,
       answer2,
       answer3,
-      card1,
-      card2,
-      card3,
-      card4,
-      card5,
-      card6,
-      card7,
-      card8,
-      card9,
-      card10,
+      // card1,
+      // card2,
+      // card3,
+      // card4,
+      // card5,
+      // card6,
+      // card7,
+      // card8,
+      // card9,
+      // card10,
     });
   }
 );
+
+app.patch("api/sublevels/:sublevelId/cards/", async (request, response) => {
+  const {
+    params: { subLevelId },
+    body,
+  } = request;
+
+  const updateCards = body.cards.map((card) => {
+    return prisma.card.update({
+      where: { id: card.id },
+      data: { front: card.front, back: card.back },
+    });
+  });
+
+  const [
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
+    card6,
+    card7,
+    card8,
+    card9,
+    card10,
+  ] = await prisma.$transaction([...updateCards]);
+
+  response.status(200).json({
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
+    card6,
+    card7,
+    card8,
+    card9,
+    card10,
+  });
+});
 
 // GET all cards
 app.get("/api/sublevels/:sublevelId/cards", async (request, response) => {
@@ -445,16 +485,17 @@ app.get("/api/cards/:cardId", async (request, response) => {
 app.patch("/api/cards/:cardId", async (request, response) => {
   const {
     params: { cardId },
-    body,
+    body: { front, back },
   } = request;
 
   const updateCardInfo = await prisma.card.update({
     where: { id: Number(cardId) },
     data: {
-      front: body.front,
-      back: body.back,
+      front,
+      back,
     },
   });
+
   response.status(200).json({ updateCardInfo });
 });
 
@@ -487,7 +528,3 @@ app.delete("/api/cards/:cardId", validateCardId, (request, response) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
-
-// HOMEWORK 29th March
-// Validation for params | update DELETE and PATCH with validation | unified card.id === cardId function and convert it to middleware function
-// check PUT and PATCH (check difference) and write additional PUT endpoint

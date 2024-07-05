@@ -42,7 +42,7 @@ export default function AdminSubLevel() {
             title: subLevel.question.title,
             answers: subLevel.question.answers,
           },
-          cards: subLevel.cards,
+          // cards: subLevel.cards,
         }),
       });
 
@@ -102,25 +102,25 @@ export default function AdminSubLevel() {
     }));
   };
 
-  const handleFrontTitleChange = (e, id) => {
-    const title = e.target.value;
-    setSubLevel((state) => ({
-      ...state,
-      cards: state.cards.map((card) =>
-        card.id === id ? { ...card, front: title } : card
-      ),
-    }));
-  };
+  // const handleFrontTitleChange = (e, id) => {
+  //   const title = e.target.value;
+  //   setSubLevel((state) => ({
+  //     ...state,
+  //     cards: state.cards.map((card) =>
+  //       card.id === id ? { ...card, front: title } : card
+  //     ),
+  //   }));
+  // };
 
-  const handleBackTitleChange = (e, id) => {
-    const title = e.target.value;
-    setSubLevel((state) => ({
-      ...state,
-      cards: state.cards.map((card) =>
-        card.id === id ? { ...card, back: title } : card
-      ),
-    }));
-  };
+  // const handleBackTitleChange = (e, id) => {
+  //   const title = e.target.value;
+  //   setSubLevel((state) => ({
+  //     ...state,
+  //     cards: state.cards.map((card) =>
+  //       card.id === id ? { ...card, back: title } : card
+  //     ),
+  //   }));
+  // };
 
   return (
     <>
@@ -174,7 +174,7 @@ export default function AdminSubLevel() {
           </div>
           {/* Card Front and Back Name  */}
           <br />
-          <strong>
+          {/* <strong>
             <p style={{ color: "black" }}>Cards names:</p>
           </strong>
           <br />
@@ -206,7 +206,7 @@ export default function AdminSubLevel() {
                   </li>
                 );
               })}
-          </div>
+          </div> */}
           <br />
           <button type="submit">Submit</button>
         </form>
@@ -217,7 +217,7 @@ export default function AdminSubLevel() {
       {/*============= cards start ===============*/}
       <ul className="cards">
         {/* Updating subLevel per Id*/}
-        {/* {subLevel && (
+        {subLevel && (
           <li key={subLevel.id}>
             <i className="bx bx-group" />
             <span className="info">
@@ -232,8 +232,8 @@ export default function AdminSubLevel() {
               </h4>
             </span>
           </li>
-        )} */}
-        {subLevel &&
+        )}
+        {/* {subLevel &&
           subLevel.cards.map(({ id, front, back }) => {
             return (
               <li key={id}>
@@ -255,24 +255,24 @@ export default function AdminSubLevel() {
                 </span>
               </li>
             );
-          })}
-        {/* {subLevel &&
+          })} */}
+        {subLevel &&
           subLevel.question.answers.map(({ id, answer }) => {
             return (
               <li key={id}>
                 <i className="bx bx-group" />
                 <span className="info">
                   <h4 style={{ color: "black" }}>
-                    id: {id}
+                    Answer {id}
                     <br />
-                    {subLevel.question.title}
+                    {/* {subLevel.question.title} */}
                     <br />
                     {answer}
                   </h4>
                 </span>
               </li>
             );
-          })} */}
+          })}
       </ul>
       {/*============= cards close ===============*/}
     </>
