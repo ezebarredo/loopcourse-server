@@ -1,12 +1,16 @@
 import "/src/App.css";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Modal from "../shared/Modal";
 
 // Sublevels, cards, questions and answers
 export default function AdminSubLevel() {
   let { levelId, sublevelId } = useParams();
+  const API_URL_ANSWERS_PATCH = `http://localhost:4000/api/answers`;
   const [subLevel, setSubLevel] = useState(null);
-  const [subLevelName, setSubLevelName] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chosenAnswer, setChosenAnswer] = useState(null);
+  const [answer, setAnswer] = useState("");
 
   const getApiSubLevel = `http://localhost:4000/api/levels/${levelId}/sublevels/${sublevelId}`;
 
@@ -27,7 +31,7 @@ export default function AdminSubLevel() {
     asyncFn();
   }, [levelId, sublevelId]);
 
-  const patchSublevel = async () => {
+  const patchSublevelAudioQuestion = async () => {
     try {
       const response = await fetch(getApiSubLevel, {
         method: "PATCH",
@@ -42,7 +46,6 @@ export default function AdminSubLevel() {
             title: subLevel.question.title,
             answers: subLevel.question.answers,
           },
-          // cards: subLevel.cards,
         }),
       });
 
@@ -51,18 +54,54 @@ export default function AdminSubLevel() {
       }
 
       const data = await response.json();
-      setSubLevelName(subLevel.title);
     } catch (error) {
       console.log("Error", error);
     }
   };
 
-  const handleSubmit = (e) => {
+  const patchAnswers = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL_ANSWERS_PATCH}/${chosenAnswer?.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            answer,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setSubLevel((state) => ({
+        ...state,
+        question: {
+          ...state.question,
+          answers: state.question.answers.map((answerObj) =>
+            answerObj.id === chosenAnswer.id
+              ? { ...answerObj, answer }
+              : answerObj
+          ),
+        },
+      }));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  const handleSubmitSublevelAudioQuestion = (e) => {
     e.preventDefault();
-    patchSublevel();
-    console.log(
-      `New names updates are: ${subLevel.title}, ${subLevel.audio} & ${subLevel.question.title}`
-    );
+    patchSublevelAudioQuestion();
+  };
+
+  const handleSubmitAnswer = (e) => {
+    e.preventDefault();
+    patchAnswers();
   };
 
   const handleSublevelTitleChange = (e) => {
@@ -89,53 +128,57 @@ export default function AdminSubLevel() {
     }));
   };
 
-  const handleAnswerTitleChange = (e, id) => {
-    const title = e.target.value;
-    setSubLevel((state) => ({
-      ...state,
-      question: {
-        ...state.question,
-        answers: state.question.answers.map((answer) =>
-          answer.id === id ? { ...answer, answer: title } : answer
-        ),
-      },
-    }));
+  const handleAnswerTitleChange = (e) => {
+    const newAnswer = e.target.value;
+    setAnswer(newAnswer);
   };
 
-  // const handleFrontTitleChange = (e, id) => {
-  //   const title = e.target.value;
-  //   setSubLevel((state) => ({
-  //     ...state,
-  //     cards: state.cards.map((card) =>
-  //       card.id === id ? { ...card, front: title } : card
-  //     ),
-  //   }));
-  // };
-
-  // const handleBackTitleChange = (e, id) => {
-  //   const title = e.target.value;
-  //   setSubLevel((state) => ({
-  //     ...state,
-  //     cards: state.cards.map((card) =>
-  //       card.id === id ? { ...card, back: title } : card
-  //     ),
-  //   }));
-  // };
+  const onEditClick = (oneAnswer) => {
+    setIsModalOpen(true);
+    setChosenAnswer(oneAnswer);
+    setAnswer(oneAnswer.answer);
+  };
 
   return (
     <>
+      {/* Modal starts */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <form
+          onSubmit={handleSubmitAnswer}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            width: "200px",
+          }}
+        >
+          <p style={{ color: "black" }}>Edit</p>
+          <br />
+          <p style={{ color: "black" }}>Answer</p>
+          <input
+            type="text"
+            value={answer}
+            onChange={handleAnswerTitleChange}
+          />
+          <br />
+          <br />
+          <br />
+          <button type="submit">Submit</button>
+        </form>
+      </Modal>
+
+      {/* Modal Ends */}
       {/* Subtitle, Audio and question title form: */}
       <strong>
-        {" "}
         <p style={{ color: "black", marginBottom: "10px" }}>
-          Edition dashboard:{" "}
+          Edition dashboard:
         </p>
       </strong>
       {subLevel && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmitSublevelAudioQuestion}>
           <div style={{ display: "flex", gap: "10px" }}>
             <li>
-              <p style={{ color: "black" }}>Subtitle name:</p>
+              <p style={{ color: "black" }}>Sublevel name:</p>
               <input
                 type="text"
                 value={subLevel.title}
@@ -158,118 +201,45 @@ export default function AdminSubLevel() {
                 value={subLevel.question.title}
               />
             </li>
-            {/* Asnwer title */}
-            {subLevel.question.answers.map(({ id, answer }) => {
-              return (
-                <li key={id}>
-                  <p style={{ color: "black" }}>Answer {id} name:</p>
-                  <input
-                    onChange={(e) => handleAnswerTitleChange(e, id)}
-                    type="text"
-                    value={answer}
-                  />
-                </li>
-              );
-            })}
+            <br />
+            <button type="submit">Submit</button>
           </div>
-          {/* Card Front and Back Name  */}
-          <br />
-          {/* <strong>
-            <p style={{ color: "black" }}>Cards names:</p>
-          </strong>
-          <br />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "200px 200px 200px 200px 200px",
-              gap: "10px",
-            }}
-          >
-            {subLevel &&
-              subLevel.cards.map(({ id, front, back }) => {
-                return (
-                  <li key={id}>
-                    <p style={{ color: "black" }}>Card {id} Front name:</p>
-                    <input
-                      onChange={(e) => handleFrontTitleChange(e, id)}
-                      type="text"
-                      value={front}
-                    />
-                    <br />
-                    <p style={{ color: "black" }}>Card {id} Back name:</p>
-                    <input
-                      onChange={(e) => handleBackTitleChange(e, id)}
-                      type="text"
-                      value={back}
-                    />
-                    <br />
-                  </li>
-                );
-              })}
-          </div> */}
-          <br />
-          <button type="submit">Submit</button>
         </form>
       )}
-      <h4 style={{ color: "black" }}>
-        {subLevelName && `New SubLevel Name: ${subLevelName}✔️`}
-      </h4>
+      <h4 style={{ color: "black" }}></h4>
       {/*============= cards start ===============*/}
       <ul className="cards">
         {/* Updating subLevel per Id*/}
         {subLevel && (
           <li key={subLevel.id}>
-            <i className="bx bx-group" />
             <span className="info">
-              <h4 style={{ color: "black" }}>
-                id: {subLevel.id}
+              <h4 style={{ color: "black", lineHeight: "2" }}>
+                Sublevel Number: {subLevel.id}
                 <br />
-                {subLevel.title}
+                Name: {subLevel.title}
                 <br />
-                {subLevel.audio}
+                Audio: {subLevel.audio}
                 <br />
-                {subLevel.question.title}
+                Question: {subLevel.question.title}
               </h4>
             </span>
           </li>
         )}
-        {/* {subLevel &&
-          subLevel.cards.map(({ id, front, back }) => {
-            return (
-              <li key={id}>
-                <i className="bx bx-group" />
-                <span className="info">
-                  <h4 style={{ color: "black" }}>
-                    id: {id}
-                    <br />
-                    {subLevel.title}
-                    <br />
-                    {subLevel.audio}
-                    <br />
-                    Front: {front}
-                    <br />
-                    Back: {back}
-                    <br />
-                    Q: {subLevel.question.title}
-                  </h4>
-                </span>
-              </li>
-            );
-          })} */}
+        {/* Answers */}
         {subLevel &&
-          subLevel.question.answers.map(({ id, answer }) => {
+          subLevel.question.answers.map((oneAnswer) => {
+            const { id, answer } = oneAnswer;
             return (
               <li key={id}>
-                <i className="bx bx-group" />
                 <span className="info">
                   <h4 style={{ color: "black" }}>
-                    Answer {id}
-                    <br />
-                    {/* {subLevel.question.title} */}
+                    Answer {id}:
                     <br />
                     {answer}
                   </h4>
                 </span>
+                <br />
+                <button onClick={() => onEditClick(oneAnswer)}>Edit</button>
               </li>
             );
           })}

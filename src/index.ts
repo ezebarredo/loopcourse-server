@@ -31,6 +31,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Classic pattern for REST API creation:
+
 // GET /api/levels -- ALL LEVELS
 // GET /api/levels/:id -- ONE LEVEL
 // POST /api/levels -- CREATE
@@ -256,23 +257,23 @@ app.get(
 // });
 
 // PATCH answerId
-app.patch(
-  "/api/questions/:questionid/answers/:answerId",
-  async (request, response) => {
-    const {
-      params: { questionid, answerId },
-      body,
-    } = request;
+// app.patch(
+//   "/api/questions/:questionid/answers/:answerId",
+//   async (request, response) => {
+//     const {
+//       params: { questionid, answerId },
+//       body,
+//     } = request;
 
-    const updateAnswerInfo = await prisma.answer.update({
-      where: { id: Number(answerId) },
-      data: {
-        answer: body.answer,
-      },
-    });
-    response.status(200).json({ updateAnswerInfo });
-  }
-);
+//     const updateAnswerInfo = await prisma.answer.update({
+//       where: { id: Number(answerId) },
+//       data: {
+//         answer: body.answer,
+//       },
+//     });
+//     response.status(200).json({ updateAnswerInfo });
+//   }
+// );
 
 // EXPRESS
 // app.post("/api/cards", (request, response) => {
@@ -304,8 +305,6 @@ app.patch(
 //   }
 // });
 
-// TODO: patch level, sublevel, cards, questions and answers
-
 // PATCH 1 Level
 app.patch("/api/levels/:levelId", async (request, response) => {
   const {
@@ -322,11 +321,7 @@ app.patch("/api/levels/:levelId", async (request, response) => {
   response.status(200).json({ updateLevelInfo });
 });
 
-// data: [{ title: 'My first post' }, { title: 'My second post' }],
-// data: body.question.answers
-// where: questionId
-
-//PATCH 1 Sublevel with title/audio and cards front/back.
+//PATCH 1 Sublevel with title/audio
 app.patch(
   "/api/levels/:levelId/sublevels/:sublevelId",
   async (request, response) => {
@@ -341,12 +336,12 @@ app.patch(
     //   prisma.answer.update({ /* query 2 */ }),
     //   prisma.answer.update({ /* query 3 */ })
     // ]
-    const updateAnswers = body.question.answers.map((answer) => {
-      return prisma.answer.update({
-        where: { id: answer.id },
-        data: { answer: answer.answer },
-      });
-    });
+    // const updateAnswers = body.question.answers.map((answer) => {
+    //   return prisma.answer.update({
+    //     where: { id: answer.id },
+    //     data: { answer: answer.answer },
+    //   });
+    // });
 
     // const updateCards = body.cards.map((card) => {
     //   return prisma.card.update({
@@ -380,9 +375,9 @@ app.patch(
 
     const [
       subLevelInfo,
-      answer1,
-      answer2,
-      answer3,
+      // answer1,
+      // answer2,
+      // answer3,
       // card1,
       // card2,
       // card3,
@@ -395,15 +390,15 @@ app.patch(
       // card10,
     ] = await prisma.$transaction([
       updateSublevelInfo,
-      ...updateAnswers,
+      // ...updateAnswers,
       // ...updateCards,
     ]);
 
     response.status(200).json({
       subLevelInfo,
-      answer1,
-      answer2,
-      answer3,
+      // answer1,
+      // answer2,
+      // answer3,
       // card1,
       // card2,
       // card3,
@@ -418,6 +413,40 @@ app.patch(
   }
 );
 
+// PATCH 1 ANSWER with answerdId
+app.patch("/api/answers/:answerId", async (request, response) => {
+  const {
+    params: { answerId },
+    body: { answer },
+  } = request;
+
+  const updateAnswerInfo = await prisma.answer.update({
+    where: { id: Number(answerId) },
+    data: {
+      answer,
+    },
+  });
+  response.status(200).json({ updateAnswerInfo });
+});
+
+// PATCH 1 Card with cardId
+app.patch("/api/cards/:cardId", async (request, response) => {
+  const {
+    params: { cardId },
+    body: { front, back },
+  } = request;
+
+  const updateCardInfo = await prisma.card.update({
+    where: { id: Number(cardId) },
+    data: {
+      front,
+      back,
+    },
+  });
+  response.status(200).json({ updateCardInfo });
+});
+
+// PATCH CARDS
 app.patch("api/sublevels/:sublevelId/cards/", async (request, response) => {
   const {
     params: { subLevelId },
@@ -479,24 +508,6 @@ app.get("/api/cards/:cardId", async (request, response) => {
     where: { id: Number(cardId) },
   });
   response.status(200).json({ getCard });
-});
-
-// PATCH 1 Card with cardId
-app.patch("/api/cards/:cardId", async (request, response) => {
-  const {
-    params: { cardId },
-    body: { front, back },
-  } = request;
-
-  const updateCardInfo = await prisma.card.update({
-    where: { id: Number(cardId) },
-    data: {
-      front,
-      back,
-    },
-  });
-
-  response.status(200).json({ updateCardInfo });
 });
 
 // PUT method replaces all current representations of the target resource with the request payload.

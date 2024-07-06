@@ -44,11 +44,21 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: hsl(222, 92%, 25%);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 5px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: dimgray;
+  font-size: 16px;
 }
 
 @media (prefers-color-scheme: light) {
