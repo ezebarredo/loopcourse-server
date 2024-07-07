@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import "/src/App.css";
 import Modal from "../shared/Modal";
 
-//TODO: print all answers with edit btn opening the modal.
-// new API for answers = api/answers/answerId -> PATCH
-// Nicer design on inputs
+//TODO: print all answers with edit btn opening the modal. ✔️
+// new API for answers = api/answers/answerId -> PATCH ✔️
+// Nicer design on inputs ✔️
 // navLink https://reactrouter.com/en/main/components/nav-link
 // Nav Levels and sublevels click and redirect to edit levels and sublevels.
 
@@ -94,15 +94,7 @@ export default function AdminCards() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         {/* Card Front and Back Name  */}
         <br />
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            width: "200px",
-          }}
-        >
+        <form onSubmit={handleSubmit} className="modalForm">
           <p style={{ color: "black" }}>Edit</p>
           <br />
           <p style={{ color: "black" }}>Front card:</p>

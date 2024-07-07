@@ -15,8 +15,8 @@
 
 /* a {
   font-weight: 500;
-  color: #1e0e62; 
-  text-decoration: inherit; 
+  color: #1e0e62;
+  text-decoration: inherit;
 } */
 
 body {
@@ -39,20 +39,30 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--dark);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  background-color: hsl(222, 92%, 25%);
+  background-color: var(--primary);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-color: var(--primary);
 }
 
 input[type="text"] {
   width: 100%;
+  padding: 12px 5px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: dimgray;
+  font-size: 16px;
+}
+
+.inputLevel[type="text"] {
+  width: 10%;
   padding: 12px 5px;
   margin: 8px 0;
   box-sizing: border-box;

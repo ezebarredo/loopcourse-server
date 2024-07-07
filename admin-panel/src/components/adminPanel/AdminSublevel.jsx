@@ -6,18 +6,17 @@ import Modal from "../shared/Modal";
 // Sublevels, cards, questions and answers
 export default function AdminSubLevel() {
   let { levelId, sublevelId } = useParams();
+  const API_URL_SUBLEVEL = `http://localhost:4000/api/levels/${levelId}/sublevels/${sublevelId}`;
   const API_URL_ANSWERS_PATCH = `http://localhost:4000/api/answers`;
   const [subLevel, setSubLevel] = useState(null);
+  const [answer, setAnswer] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [chosenAnswer, setChosenAnswer] = useState(null);
-  const [answer, setAnswer] = useState("");
-
-  const getApiSubLevel = `http://localhost:4000/api/levels/${levelId}/sublevels/${sublevelId}`;
 
   useEffect(() => {
     const asyncFn = async () => {
       try {
-        const response = await fetch(getApiSubLevel);
+        const response = await fetch(API_URL_SUBLEVEL);
         if (!response.ok) {
           throw new Error("Network response failed");
         }
@@ -33,7 +32,7 @@ export default function AdminSubLevel() {
 
   const patchSublevelAudioQuestion = async () => {
     try {
-      const response = await fetch(getApiSubLevel, {
+      const response = await fetch(API_URL_SUBLEVEL, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +43,6 @@ export default function AdminSubLevel() {
           question: {
             id: subLevel.question.id,
             title: subLevel.question.title,
-            answers: subLevel.question.answers,
           },
         }),
       });
@@ -143,15 +141,7 @@ export default function AdminSubLevel() {
     <>
       {/* Modal starts */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <form
-          onSubmit={handleSubmitAnswer}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            width: "200px",
-          }}
-        >
+        <form className="modalForm" onSubmit={handleSubmitAnswer}>
           <p style={{ color: "black" }}>Edit</p>
           <br />
           <p style={{ color: "black" }}>Answer</p>
@@ -166,7 +156,6 @@ export default function AdminSubLevel() {
           <button type="submit">Submit</button>
         </form>
       </Modal>
-
       {/* Modal Ends */}
       {/* Subtitle, Audio and question title form: */}
       <strong>
@@ -201,9 +190,8 @@ export default function AdminSubLevel() {
                 value={subLevel.question.title}
               />
             </li>
-            <br />
-            <button type="submit">Submit</button>
           </div>
+          <button type="submit">Submit</button>
         </form>
       )}
       <h4 style={{ color: "black" }}></h4>

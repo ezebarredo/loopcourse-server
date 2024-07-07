@@ -1,5 +1,5 @@
 import "/src/App.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Sublevels, cards, questions and answers
@@ -33,17 +33,18 @@ export default function AdminSublevels() {
           subLevel.map(({ id, title, audio }) => {
             return (
               <li key={id}>
-                <i className="bx bx-group" />
-                <span className="info">
-                  <h4 style={{ color: "black" }}>
-                    id: {id}
-                    <br />
-                    {title}
-                    <br />
-                    {audio}
-                    <br />
-                  </h4>
-                </span>
+                <Link to={"/admin/dashboard/levels/1/sublevels/1"}>
+                  <span className="info">
+                    <h4 style={{ color: "black" }}>
+                      id: {id}
+                      <br />
+                      {title}
+                      <br />
+                      {audio}
+                      <br />
+                    </h4>
+                  </span>
+                </Link>
               </li>
             );
           })}

@@ -4,8 +4,8 @@
 
 :root {
   --light: #f6f6f9;
-  --primary: #1976d2;
-  --light-primary: #cfe8ff;
+  --primary: #0d47a1;
+  --light-primary: #e3f2fd;
   --grey: #eee;
   --dark-grey: #aaaaaa;
   --dark: #363949;
@@ -55,7 +55,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: var(--light);
+  background-color: var(--light-primary);
   width: 260px;
   height: 100%;
   z-index: 2;
@@ -76,9 +76,10 @@ body {
 .sidebar .logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 1.7rem;
   height: 56px;
-  color: var(--dark);
+  color: var(--primary);
   z-index: 1;
   font-weight: 700;
   margin: 1rem 0.5rem;
@@ -105,13 +106,13 @@ body {
   background-color: transparent;
 }
 
-.sidebar .side-menu li.active:hover {
+/* .sidebar .side-menu li.active:hover {
   border-left: var(--success) 6px solid;
   background: var(--dark);
   transition: all 0.3s ease-in;
-}
+} */
 
-.sidebar .side-menu li a {
+/* .sidebar .side-menu li a {
   width: 100%;
   height: 100%;
   display: flex;
@@ -130,14 +131,14 @@ body {
 .sidebar.close .side-menu li a {
   width: calc(80px - 12px);
   transition: all 0.3s ease-in;
-}
+} */
 
-.sidebar .side-menu li a .bx {
+/* .sidebar .side-menu li a .bx {
   min-width: calc(80px - 20px);
   display: flex;
   justify-content: center;
   font-size: 1.7rem;
-}
+} */
 
 .sidebar.close .logo img {
   width: 100%;
@@ -162,7 +163,7 @@ body {
 
 .content nav {
   height: 56px;
-  background-color: var(--light);
+  background-color: var(--light-primary);
   padding: 2.5rem 1rem;
   display: flex;
   align-items: center;
@@ -173,9 +174,9 @@ body {
   z-index: 5;
 }
 
-.content nav a {
+/* .content nav a {
   color: var(--dark);
-}
+} */
 
 .content nav .bx.bx-menu {
   cursor: pointer;
@@ -183,13 +184,13 @@ body {
   font-size: 2rem;
 }
 
-.content nav form {
+/* .content nav form {
   max-width: 600px;
   width: 100%;
   margin-right: auto;
-}
+} */
 
-.content nav form .form-input {
+/* .content nav form .form-input {
   display: flex;
   align-items: center;
   height: 46px;
@@ -245,7 +246,7 @@ body {
   font-size: 12px;
   display: flex;
   justify-content: center;
-}
+} */
 
 .content nav .profile img {
   width: 36px;
@@ -281,10 +282,10 @@ main .breadcrumb li {
   color: var(--dark);
 }
 
-main .breadcrumb li a {
+/* main .breadcrumb li a {
   color: var(--dark);
   pointer-events: none;
-}
+} */
 
 main .breadcrumb li a.active {
   color: var(--success);
@@ -802,23 +803,34 @@ main .bottom_data .reminders .task_list li.uncomplete {
   color: #2f169c;
 }
 
-.breadcrumb:hover {
-  color: #2f169c;
-}
-
 /* Modal */
 .modal {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
-  width: 400px;
+  /* gap: 1rem; */
+  min-width: 350px;
   padding: 1rem;
   min-height: 250px;
   position: absolute;
   top: 20%;
   left: 30%;
   background-color: white;
-  border: 5px solid rgb(69, 67, 67);
+  border: 5px solid var(--primary);
   border-radius: 15px;
+}
+
+.modalForm {
+  display: "flex";
+  flex-direction: column;
+  gap: "5px";
+  padding: "1.5rem";
+}
+
+.sidebarnav a {
+  color: var(--dark);
+}
+
+.sidebarnav a.active {
+  color: var(--primary);
 }

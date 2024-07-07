@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 export default function AdminLevel() {
   let { levelId } = useParams();
   const [level, setLevel] = useState(null);
-  const [levelName, setLevelName] = useState(null);
 
   const getApiLevel = `http://localhost:4000/api/levels/${levelId}`;
 
@@ -50,32 +49,6 @@ export default function AdminLevel() {
     }
   };
 
-  // useEffect(() => {
-  //   const asyncFn = async () => {
-  //     try {
-  //       const response = await fetch(getApiLevel, {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           title: level.title,
-  //         }),
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-
-  //       const data = await response.json();
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
-  //   asyncFn();
-  // }, [level]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     patchLevel();
@@ -93,24 +66,24 @@ export default function AdminLevel() {
   return (
     <>
       <strong>
-        {" "}
         <p style={{ color: "black", marginBottom: "10px" }}>
           Enter a new Level name:{" "}
         </p>
       </strong>
       {level && (
-        <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
-          <input
-            type="text"
-            value={level.title}
-            onChange={handleLevelTitleChange}
-          />
-          <input type="submit" />
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <input
+              className="inputLevel"
+              type="text"
+              value={level.title}
+              onChange={handleLevelTitleChange}
+            />
+          </div>
+          <button type="submit">Submit</button>
         </form>
       )}
-      <h4 style={{ color: "black" }}>
-        {levelName && `New Level Name: ${levelName} ✔️`}
-      </h4>
+      <h4 style={{ color: "black" }}></h4>
 
       {/*============= cards start ===============*/}
       <ul className="cards">
