@@ -1,5 +1,5 @@
 import "/src/App.css";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function AdminLevel() {
@@ -52,7 +52,6 @@ export default function AdminLevel() {
   const handleSubmit = (e) => {
     e.preventDefault();
     patchLevel();
-    console.log(`The name you entered was: ${level.title}`);
   };
 
   const handleLevelTitleChange = (e) => {
@@ -66,9 +65,9 @@ export default function AdminLevel() {
   return (
     <>
       <strong>
-        <p style={{ color: "black", marginBottom: "10px" }}>
-          Enter a new Level name:{" "}
-        </p>
+        <div className="header">
+          <h1>Edit Level</h1>
+        </div>
       </strong>
       {level && (
         <form onSubmit={handleSubmit}>
@@ -83,26 +82,27 @@ export default function AdminLevel() {
           <button type="submit">Submit</button>
         </form>
       )}
-      <h4 style={{ color: "black" }}></h4>
-
+      <br />
+      <br />
+      <h2 style={{ color: "black" }}>Sublevels </h2>
       {/*============= cards start ===============*/}
       <ul className="cards">
         {level &&
-          level.subLevels.map(({ id, title, audio }) => {
+          level.subLevels.map(({ id, title }) => {
             return (
               <li key={id}>
-                <i className="bx bx-group" />
-                <span className="info">
-                  <h4 style={{ color: "black" }}>
-                    id: {id}
-                    <br />
-                    {level.title}
-                    <br />
-                    {title}
-                    <br />
-                    {audio}
-                  </h4>
-                </span>
+                <NavLink
+                  to={`/admin/dashboard/levels/${levelId}/sublevels/${id}`}
+                  end
+                >
+                  {/* <i className="bx bx-group" /> */}
+                  <span className="info">
+                    <h3 style={{ color: "black" }}>
+                      {title}
+                      <br />
+                    </h3>
+                  </span>
+                </NavLink>
               </li>
             );
           })}

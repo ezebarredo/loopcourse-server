@@ -39,7 +39,7 @@ li {
   list-style-type: none;
 }
 
-/* ========Utality Classes Start=================== */
+/* ========Utility Classes Start=================== */
 body.dark {
   --light: #181a1e;
   --grey: #25252c;
@@ -144,9 +144,9 @@ body {
   width: 100%;
 }
 
-.side-menu li a.logout {
+/* .side-menu li a.logout {
   color: var(--danger);
-}
+} */
 
 /* NAV */
 .content {
@@ -178,11 +178,11 @@ body {
   color: var(--dark);
 } */
 
-.content nav .bx.bx-menu {
+/* .content nav .bx.bx-menu {
   cursor: pointer;
   color: var(--dark);
   font-size: 2rem;
-}
+} */
 
 /* .content nav form {
   max-width: 600px;
@@ -248,13 +248,13 @@ body {
   justify-content: center;
 } */
 
-.content nav .profile img {
+/* .content nav .profile img {
   width: 36px;
   height: 36px;
   object-fit: cover;
   border-radius: 50%;
   border: 4px solid var(--dark-grey);
-}
+} */
 
 /* card */
 
@@ -272,7 +272,7 @@ main .header h1 {
   color: var(--dark);
 }
 
-main .breadcrumb {
+/* main .breadcrumb {
   display: flex;
   align-items: center;
   grid-gap: 1.2rem;
@@ -280,22 +280,22 @@ main .breadcrumb {
 
 main .breadcrumb li {
   color: var(--dark);
-}
+} */
 
 /* main .breadcrumb li a {
   color: var(--dark);
   pointer-events: none;
 } */
-
+/* 
 main .breadcrumb li a.active {
   color: var(--success);
-}
+} */
 
 main .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-gap: 1.5rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 main .cards li {
@@ -306,12 +306,14 @@ main .cards li {
   align-items: center;
   grid-gap: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease-in;
+  transition: all 0.1s ease-in;
 }
 
-/* main .cards li:hover {
-  transform: translateY(-10px);
-} */
+main .cards li:hover {
+  background-color: var(--dark-grey);
+  border-color: var(--primary);
+  border-radius: 5px;
+}
 
 main .cards li .bx {
   width: 4.5rem;
@@ -351,6 +353,10 @@ main .cards li .info h3 {
 
 main .cards li .info p {
   color: var(--dark);
+}
+
+.cardHover:hover {
+  color: var(--dark-grey);
 }
 
 /* ========Orders Details Start=================== */
@@ -551,20 +557,20 @@ main .bottom_data .reminders .task_list li.uncomplete {
 /* SPACING SYSTEM (px): 
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128  */
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   max-width: 1400px;
   margin: 0 auto;
-  height: 100px;
+  /* height: 100px; */
   align-items: center;
-  padding-inline: 100px;
+  /* padding-inline: 100px; */
 }
 
 .btn-email {
@@ -827,10 +833,6 @@ main .bottom_data .reminders .task_list li.uncomplete {
   padding: "1.5rem";
 }
 
-.sidebarnav a {
-  color: var(--dark);
-}
-
-.sidebarnav a.active {
+#sidebarnav a.active {
   color: var(--primary);
 }

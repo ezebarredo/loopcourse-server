@@ -1,14 +1,13 @@
 import "/src/App.css";
+import AdminLevels from "./AdminLevels";
 
 export default function AdminHome() {
   return (
     <>
-      <div className="header">
-        <h1>Dashboard</h1>
-      </div>
-      {/*============= cards start ===============*/}
-      <ul className="cards"></ul>
-      {/*============= cards close ===============*/}
+      <AdminLevels />
+      {/* ============= cards start ===============*/}
+      {/* <ul className="cards"></ul> */}
+      {/*============= cards close =============== */}
     </>
   );
 }

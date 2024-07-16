@@ -3,12 +3,6 @@ import { useParams } from "react-router-dom";
 import "/src/App.css";
 import Modal from "../shared/Modal";
 
-//TODO: print all answers with edit btn opening the modal. ✔️
-// new API for answers = api/answers/answerId -> PATCH ✔️
-// Nicer design on inputs ✔️
-// navLink https://reactrouter.com/en/main/components/nav-link
-// Nav Levels and sublevels click and redirect to edit levels and sublevels.
-
 export default function AdminCards() {
   let { sublevelId } = useParams();
   const API_URL_CARDS = `http://localhost:4000/api/sublevels/${sublevelId}/cards`;

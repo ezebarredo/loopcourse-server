@@ -158,16 +158,15 @@ export default function AdminSubLevel() {
       </Modal>
       {/* Modal Ends */}
       {/* Subtitle, Audio and question title form: */}
-      <strong>
-        <p style={{ color: "black", marginBottom: "10px" }}>
-          Edition dashboard:
-        </p>
-      </strong>
+      <div className="header">
+        <h1>Edit Sublevel</h1>
+      </div>
+      <br />
       {subLevel && (
         <form onSubmit={handleSubmitSublevelAudioQuestion}>
           <div style={{ display: "flex", gap: "10px" }}>
             <li>
-              <p style={{ color: "black" }}>Sublevel name:</p>
+              <p style={{ color: "black" }}>Name:</p>
               <input
                 type="text"
                 value={subLevel.title}
@@ -175,7 +174,7 @@ export default function AdminSubLevel() {
               />
             </li>
             <li>
-              <p style={{ color: "black" }}>Audio name:</p>
+              <p style={{ color: "black" }}>Audio:</p>
               <input
                 onChange={handleSubLevelAudioChange}
                 type="text"
@@ -183,7 +182,7 @@ export default function AdminSubLevel() {
               />
             </li>
             <li>
-              <p style={{ color: "black" }}>Question name:</p>
+              <p style={{ color: "black" }}>Question:</p>
               <input
                 onChange={handleQuestionTitleChange}
                 type="text"
@@ -191,6 +190,7 @@ export default function AdminSubLevel() {
               />
             </li>
           </div>
+          <br />
           <button type="submit">Submit</button>
         </form>
       )}
@@ -202,13 +202,13 @@ export default function AdminSubLevel() {
           <li key={subLevel.id}>
             <span className="info">
               <h4 style={{ color: "black", lineHeight: "2" }}>
-                Sublevel Number: {subLevel.id}
+                Sublevel {subLevel.id}
                 <br />
-                Name: {subLevel.title}
+                {subLevel.title}
                 <br />
-                Audio: {subLevel.audio}
+                {subLevel.audio}
                 <br />
-                Question: {subLevel.question.title}
+                {subLevel.question.title}
               </h4>
             </span>
           </li>

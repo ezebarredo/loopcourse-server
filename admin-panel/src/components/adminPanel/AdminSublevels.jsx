@@ -36,7 +36,7 @@ export default function AdminSublevels() {
                 <Link to={"/admin/dashboard/levels/1/sublevels/1"}>
                   <span className="info">
                     <h4 style={{ color: "black" }}>
-                      id: {id}
+                      {id}
                       <br />
                       {title}
                       <br />
