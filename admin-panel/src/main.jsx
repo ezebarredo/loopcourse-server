@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <AdminSublevel />,
       },
       {
-        path: "/admin/dashboard/sublevels/:sublevelId/cards",
+        path: "/admin/dashboard/levels/:levelId/sublevels/:sublevelId/cards",
         element: <AdminCards />,
       },
     ],

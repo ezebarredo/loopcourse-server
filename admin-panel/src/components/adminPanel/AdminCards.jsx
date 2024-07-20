@@ -110,7 +110,7 @@ export default function AdminCards() {
               <li key={id}>
                 <span className="info">
                   <h4 style={{ color: "black" }}>
-                    id: {id}
+                    {id}
                     <br />
                     Front: {front}
                     <br />

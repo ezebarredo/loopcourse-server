@@ -1,5 +1,5 @@
 import "/src/App.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Modal from "../shared/Modal";
 
@@ -233,6 +233,17 @@ export default function AdminSubLevel() {
           })}
       </ul>
       {/*============= cards close ===============*/}
+      <ul className="cards">
+        <Link
+          to={`/admin/dashboard/levels/${levelId}/sublevels/${sublevelId}/cards`}
+        >
+          <li>
+            <span className="info">
+              <h3 style={{ color: "black" }}>Cards</h3>
+            </span>
+          </li>
+        </Link>
+      </ul>
     </>
   );
 }

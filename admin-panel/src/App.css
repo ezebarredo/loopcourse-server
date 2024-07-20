@@ -167,7 +167,7 @@ body {
   padding: 2.5rem 1rem;
   display: flex;
   align-items: center;
-  grid-gap: 24px;
+  grid-gap: 5px;
   position: sticky;
   top: 0;
   left: 0;
@@ -833,6 +833,10 @@ main .bottom_data .reminders .task_list li.uncomplete {
   padding: "1.5rem";
 }
 
-#sidebarnav a.active {
+#breadcrumb a.active {
   color: var(--primary);
+}
+
+#breadcrumb a:hover {
+  text-decoration: underline;
 }
