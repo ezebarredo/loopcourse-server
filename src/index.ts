@@ -1,12 +1,15 @@
 // IMPORTS
 const express = require("express");
 const cors = require("cors");
-const nanoid = require("nanoid").nanoid;
+// const nanoid = require("nanoid").nanoid;
 const morgan = require("morgan");
 const app = express();
 const PORT = 4000;
 const bodyParser = require("body-parser");
-require("dotenv").config();
+//SWAGGER
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/swagger.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //PRISMA
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -46,9 +49,9 @@ app.get("/hello", (request, response, next) => {
 // API 2 | GET cards
 // 1. Copy file cards.js from Next.js app into server project and import here.
 //  GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
-app.get("/api/cards", (request, response, next) => {
-  response.status(200).json({ cards });
-});
+// app.get("/api/cards", (request, response, next) => {
+//   response.status(200).json({ cards });
+// });
 
 // API 3
 // 2. Make another API: /api/cards/:cardId -- SINGLE CARD

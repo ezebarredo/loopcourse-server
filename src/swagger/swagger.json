@@ -1,0 +1,141 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LoopCourse: API Reference",
+    "version": "1.0.0",
+    "description": "CRUD API for Levels, Sublevels, Cards, Questions, Answers and Audio",
+    "contact": {
+      "name": "Eze Barredo"
+    }
+  },
+  "servers": [{ "url": "http://localhost:4000" }],
+  "paths": {
+    "/api/levels": {
+      "get": {
+        "summary": "GET all Levels",
+        "description": "This endpoint retrieves a list of all levels.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/levels/{levelId}/sublevels": {
+      "get": {
+        "summary": "Get all Sublevels from a Level",
+        "description": "Retrieves sublevels by level ID.",
+        "parameters": [
+          {
+            "name": "levelId",
+            "in": "path",
+            "description": "ID of the requested level",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "levelId": { "type": "integer" },
+                    "sublevels": {
+                      "type": "array",
+                      "items": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Level not found" }
+        }
+      }
+    }
+  },
+  "/api/sublevels/{sublevelId}/cards": {
+    "get": {
+      "summary": "Get all Cards from a Sublevel",
+      "description": "Retrieves Cards by Sublevel ID.",
+      "parameters": [
+        {
+          "name": "sublevelId",
+          "in": "path",
+          "description": "ID of the requested sublevel",
+          "required": true,
+          "schema": { "type": "integer" }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sublevelId": { "type": "integer" },
+                  "cards": {
+                    "type": "array",
+                    "items": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": { "description": "Sublevel not found" }
+      }
+    }
+  },
+  "/api/levels/{levelId}": {
+    "patch": {
+      "summary": "Update a Level Title",
+      "description": "Updates a specific level identified by its ID.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "The updated title of the level."
+                }
+              },
+              "required": ["title"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Level updated successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the updated level."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The updated title of the level."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": { "description": "Bad request (invalid patch data)" },
+        "404": { "description": "Level not found" }
+      }
+    }
+  }
+}
