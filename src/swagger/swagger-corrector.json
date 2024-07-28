@@ -1,0 +1,164 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Loop Course: API Reference",
+    "version": "1.0.0",
+    "description": "CRUD API for Levels, Sublevels, Cards, Questions, Answers and Audio",
+    "contact": {
+      "name": "Eze Barredo"
+    }
+  },
+  "servers": [{ "url": "http://localhost:4000" }],
+  "paths": {
+    "/api/levels": {
+      "get": {
+        "summary": "GET all Levels",
+        "description": "This endpoint retrieves a list of all levels.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "getAllLevels": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "title": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "getAllLevels": [
+                    {
+                      "id": 1,
+                      "title": "Level 1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/levels/{levelId}/sublevels": {
+      "get": {
+        "summary": "Get all Sublevels from a Level",
+        "description": "Retrieves sublevels by level ID.",
+        "parameters": [
+          {
+            "name": "levelId",
+            "in": "path",
+            "description": "ID of the requested level",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "levelId": { "type": "integer" },
+                    "sublevels": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "title": { "type": "string" },
+                          "audio": { "type": "string" },
+                          "levelId": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "getAllSublevels": {
+                    "id": 1,
+                    "title": "Level 1",
+                    "subLevels": [
+                      {
+                        "id": 1,
+                        "title": "Subject Pronouns",
+                        "audio": "audio_level_1.mp4",
+                        "levelId": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Level not found" }
+        }
+      }
+    },
+    "/api/sublevels/{sublevelId}/cards": {
+      "get": {
+        "summary": "Get all Cards from a Sublevel",
+        "description": "Retrieves Cards by Sublevel ID.",
+        "parameters": [
+          {
+            "name": "sublevelId",
+            "in": "path",
+            "description": "ID of the requested sublevel",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subLevelId": { "type": "integer" },
+                    "getAllCards": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "front": { "type": "string" },
+                          "back": { "type": "string" },
+                          "image": { "type": "string" },
+                          "subLevelId": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "getAllCards": [
+                    {
+                      "id": 1,
+                      "front": "do widzenia",
+                      "back": "See you!",
+                      "image": "/excited.jpg",
+                      "subLevelId": 1
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "description": "Sublevel not found" }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,8 @@ const PORT = 4000;
 const bodyParser = require("body-parser");
 //SWAGGER
 const swaggerUi = require("swagger-ui-express");
+// const YAML = require("js-yaml");
+// const swaggerDocument = YAML.load("./swagger/swagger.yaml");
 const swaggerDocument = require("./swagger/swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //PRISMA
@@ -184,7 +186,7 @@ app.post("/api/:questionId/answers", async (request, response) => {
 
 //GET
 
-//Get question
+//Get 1 question with 3 answers
 app.get("/api/sub-levels/:questionId", async (request, response) => {
   const {
     params: { questionId },

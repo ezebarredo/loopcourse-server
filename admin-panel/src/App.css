@@ -838,5 +838,6 @@ main .bottom_data .reminders .task_list li.uncomplete {
 }
 
 #breadcrumb a:hover {
-  text-decoration: underline;
+  color: #4b668e;
+  /* text-decoration: underline; */
 }

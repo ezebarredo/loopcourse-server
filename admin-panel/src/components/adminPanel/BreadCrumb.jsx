@@ -1,8 +1,6 @@
 import "/src/App.css";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 
-// TODO: Levels / 1 / Sublevels
-
 // Levels / 1 / Sublevels / 1 / Cards / 1
 // Levels / 1 / Sublevels / 1 / Cards / 1 / Questions / 1 / Answers
 
@@ -20,8 +18,6 @@ import { NavLink, useLocation, useParams } from "react-router-dom";
 // const crumbsCards = path.includes("cards") ? " / cards" : "";
 
 // const crumbs = crumbsSublevels + crumbsSublevelsId + crumbsCards;
-
-//TODO: finish breadcrums and read and add swagger
 
 export default function Breadcrumb() {
   let { levelId, sublevelId } = useParams();

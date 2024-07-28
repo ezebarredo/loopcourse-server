@@ -1,14 +1,18 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "LoopCourse: API Reference",
+    "title": "Loop Course: API Reference",
     "version": "1.0.0",
     "description": "CRUD API for Levels, Sublevels, Cards, Questions, Answers and Audio",
     "contact": {
       "name": "Eze Barredo"
     }
   },
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
   "paths": {
     "/api/levels": {
       "get": {
@@ -16,7 +20,38 @@
         "description": "This endpoint retrieves a list of all levels.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "getAllLevels": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "getAllLevels": [
+                    {
+                      "id": 1,
+                      "title": "Level 1"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -31,7 +66,9 @@
             "in": "path",
             "description": "ID of the requested level",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -42,99 +79,203 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "levelId": { "type": "integer" },
+                    "levelId": {
+                      "type": "integer"
+                    },
                     "sublevels": {
                       "type": "array",
-                      "items": { "type": "object" }
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "audio": {
+                            "type": "string"
+                          },
+                          "levelId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
                     }
+                  }
+                },
+                "example": {
+                  "getAllSublevels": {
+                    "id": 1,
+                    "title": "Level 1",
+                    "subLevels": [
+                      {
+                        "id": 1,
+                        "title": "Subject Pronouns",
+                        "audio": "audio_level_1.mp4",
+                        "levelId": 1
+                      }
+                    ]
                   }
                 }
               }
             }
           },
-          "404": { "description": "Level not found" }
-        }
-      }
-    }
-  },
-  "/api/sublevels/{sublevelId}/cards": {
-    "get": {
-      "summary": "Get all Cards from a Sublevel",
-      "description": "Retrieves Cards by Sublevel ID.",
-      "parameters": [
-        {
-          "name": "sublevelId",
-          "in": "path",
-          "description": "ID of the requested sublevel",
-          "required": true,
-          "schema": { "type": "integer" }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "sublevelId": { "type": "integer" },
-                  "cards": {
-                    "type": "array",
-                    "items": { "type": "object" }
-                  }
-                }
-              }
-            }
+          "404": {
+            "description": "Level not found"
           }
-        },
-        "404": { "description": "Sublevel not found" }
+        }
       }
-    }
-  },
-  "/api/levels/{levelId}": {
-    "patch": {
-      "summary": "Update a Level Title",
-      "description": "Updates a specific level identified by its ID.",
-      "requestBody": {
-        "content": {
-          "application/json": {
+    },
+    "/api/sublevels/{sublevelId}/cards": {
+      "get": {
+        "summary": "Get all Cards from a Sublevel",
+        "description": "Retrieves Cards by Sublevel ID.",
+        "parameters": [
+          {
+            "name": "sublevelId",
+            "in": "path",
+            "description": "ID of the requested sublevel",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "description": "The updated title of the level."
-                }
-              },
-              "required": ["title"]
+              "type": "integer"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subLevelId": {
+                      "type": "integer"
+                    },
+                    "getAllCards": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "front": {
+                            "type": "string"
+                          },
+                          "back": {
+                            "type": "string"
+                          },
+                          "image": {
+                            "type": "string"
+                          },
+                          "subLevelId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "getAllCards": [
+                    {
+                      "id": 1,
+                      "front": "do widzenia",
+                      "back": "See you!",
+                      "image": "/excited.jpg",
+                      "subLevelId": 1
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sublevel not found"
+          }
         }
-      },
-      "responses": {
-        "200": {
-          "description": "Level updated successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "description": "The ID of the updated level."
-                  },
-                  "title": {
-                    "type": "string",
-                    "description": "The updated title of the level."
+      }
+    },
+    "/api/sub-levels/{questionId}": {
+      "get": {
+        "summary": "Get a Question with all Answers",
+        "description": "Retrieves Questions and Answers by questionId",
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of the requested Question",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "questionId": {
+                      "type": "integer"
+                    },
+                    "getQuestion": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "correctAnswer": {
+                            "type": "string"
+                          },
+                          "answeredCorrectly": {
+                            "type": "string"
+                          },
+                          "gramarLevel": {
+                            "type": "string"
+                          },
+                          "userAnswer": {
+                            "type": "string"
+                          },
+                          "subLevelId": {
+                            "type": "integer"
+                          },
+                          "answers": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "answer": {
+                                  "type": "string"
+                                },
+                                "questionId": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "400": { "description": "Bad request (invalid patch data)" },
-        "404": { "description": "Level not found" }
+        }
       }
     }
   }
