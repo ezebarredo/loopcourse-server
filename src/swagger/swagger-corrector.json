@@ -8,11 +8,15 @@
       "name": "Eze Barredo"
     }
   },
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
   "paths": {
     "/api/levels": {
       "get": {
-        "summary": "GET all Levels",
+        "summary": "Get Levels",
         "description": "This endpoint retrieves a list of all levels.",
         "responses": {
           "200": {
@@ -27,8 +31,12 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": { "type": "integer" },
-                          "title": { "type": "string" }
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
@@ -50,15 +58,17 @@
     },
     "/api/levels/{levelId}/sublevels": {
       "get": {
-        "summary": "Get all Sublevels from a Level",
-        "description": "Retrieves sublevels by level ID.",
+        "summary": "Get sublevels by level ID",
+        "description": "Retrieves Sublevels by Level ID.",
         "parameters": [
           {
             "name": "levelId",
             "in": "path",
             "description": "ID of the requested level",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -69,16 +79,26 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "levelId": { "type": "integer" },
+                    "levelId": {
+                      "type": "integer"
+                    },
                     "sublevels": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": { "type": "integer" },
-                          "title": { "type": "string" },
-                          "audio": { "type": "string" },
-                          "levelId": { "type": "integer" }
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "audio": {
+                            "type": "string"
+                          },
+                          "levelId": {
+                            "type": "integer"
+                          }
                         }
                       }
                     }
@@ -101,13 +121,15 @@
               }
             }
           },
-          "404": { "description": "Level not found" }
+          "404": {
+            "description": "Level not found"
+          }
         }
       }
     },
     "/api/sublevels/{sublevelId}/cards": {
       "get": {
-        "summary": "Get all Cards from a Sublevel",
+        "summary": "Get cards by sublevel ID",
         "description": "Retrieves Cards by Sublevel ID.",
         "parameters": [
           {
@@ -115,7 +137,9 @@
             "in": "path",
             "description": "ID of the requested sublevel",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -126,17 +150,29 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "subLevelId": { "type": "integer" },
+                    "subLevelId": {
+                      "type": "integer"
+                    },
                     "getAllCards": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "id": { "type": "integer" },
-                          "front": { "type": "string" },
-                          "back": { "type": "string" },
-                          "image": { "type": "string" },
-                          "subLevelId": { "type": "integer" }
+                          "id": {
+                            "type": "integer"
+                          },
+                          "front": {
+                            "type": "string"
+                          },
+                          "back": {
+                            "type": "string"
+                          },
+                          "image": {
+                            "type": "string"
+                          },
+                          "subLevelId": {
+                            "type": "integer"
+                          }
                         }
                       }
                     }
@@ -156,7 +192,310 @@
               }
             }
           },
-          "404": { "description": "Sublevel not found" }
+          "404": {
+            "description": "Sublevel not found"
+          }
+        }
+      }
+    },
+    "/api/sub-levels/{questionId}": {
+      "get": {
+        "summary": "Get question with it answers by question ID",
+        "description": "Retrieves Questions and it Answers by questionId",
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of the requested Question",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "questionId": {
+                      "type": "integer"
+                    },
+                    "getQuestion": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "correctAnswer": {
+                            "type": "string"
+                          },
+                          "answeredCorrectly": {
+                            "type": "string"
+                          },
+                          "gramarLevel": {
+                            "type": "string"
+                          },
+                          "userAnswer": {
+                            "type": "string"
+                          },
+                          "subLevelId": {
+                            "type": "integer"
+                          },
+                          "answers": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "answer": {
+                                  "type": "string"
+                                },
+                                "questionId": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/levels/{levelId}": {
+      "patch": {
+        "summary": "Update a Level Title",
+        "description": "Updates a specific level identified by its ID.",
+        "parameters": [
+          {
+            "name": "levelId",
+            "in": "path",
+            "description": "ID of the requested level",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "The updated title of the level."
+                  }
+                },
+                "required": ["title"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Level updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The ID of the updated level."
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "The updated title of the level."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid patch data)"
+          },
+          "404": {
+            "description": "Level not found"
+          }
+        }
+      }
+    },
+    "/api/levels/{levelId}/sublevels/{sublevelId}": {
+      "patch": {
+        "summary": "Update Sublevel, audio and question title",
+        "description": "Updates a specific sublevel identified by its ID.",
+        "parameters": [
+          {
+            "name": "levelId",
+            "in": "path",
+            "description": "ID of the requested level",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sublevelId",
+            "in": "path",
+            "description": "ID of the requested sublevel",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "The updated title of the sublevel."
+                  },
+                  "audio": {
+                    "type": "string",
+                    "description": "The updated audio title of the sublevel."
+                  },
+                  "question": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the question."
+                      }
+                    },
+                    "description": "The question related to the sublevel."
+                  }
+                },
+                "required": ["title", "audio", "question"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sublevel updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The ID of the updated sublevel."
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "The updated title of the sublevel."
+                    },
+                    "audio": {
+                      "type": "string",
+                      "description": "The updated audio title of the sublevel."
+                    },
+                    "question": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "description": "The title of the question."
+                        }
+                      },
+                      "description": "The question related to the sublevel."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid patch data)"
+          },
+          "404": {
+            "description": "Sublevel not found"
+          }
+        }
+      }
+    },
+    "/api/answers/{answerId}": {
+      "patch": {
+        "summary": "Update a Answer Title",
+        "description": "Updates a specific answer identified by its ID.",
+        "parameters": [
+          {
+            "name": "answerId",
+            "in": "path",
+            "description": "ID of the requested answer",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": "string",
+                    "description": "The updated title of the answer"
+                  }
+                },
+                "required": ["answer"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Answer title updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The ID of the updated answer"
+                    },
+                    "answer": {
+                      "type": "string",
+                      "description": "The updated title of the answer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid patch data)"
+          },
+          "404": {
+            "description": "Answer not found"
+          }
         }
       }
     }

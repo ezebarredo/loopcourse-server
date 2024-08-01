@@ -255,11 +255,34 @@ app.get(
   }
 );
 
-// // GET all answers
-// app.get("/api/questions/:questionId/answers", async (request, response) => {
-//   const getAllAnswers = await prisma.answer.findMany();
-//   response.status(200).json({ getAllAnswers });
-// });
+// GET all cards
+app.get("/api/sublevels/:sublevelId/cards", async (request, response) => {
+  const {
+    params: { sublevelId },
+  } = request;
+
+  const getAllCards = await prisma.card.findMany();
+
+  response.status(200).json({ getAllCards });
+});
+
+//GET 1 Card with cardId
+app.get("/api/cards/:cardId", async (request, response) => {
+  const {
+    params: { cardId },
+  } = request;
+
+  const getCard = await prisma.card.findUnique({
+    where: { id: Number(cardId) },
+  });
+  response.status(200).json({ getCard });
+});
+
+// GET all answers from a question ID
+app.get("/api/questions/:questionId/answers", async (request, response) => {
+  const getAllAnswers = await prisma.answer.findMany();
+  response.status(200).json({ getAllAnswers });
+});
 
 // PATCH answerId
 // app.patch(
@@ -492,32 +515,10 @@ app.patch("api/sublevels/:sublevelId/cards/", async (request, response) => {
   });
 });
 
-// GET all cards
-app.get("/api/sublevels/:sublevelId/cards", async (request, response) => {
-  const {
-    params: { sublevelId },
-  } = request;
-
-  const getAllCards = await prisma.card.findMany();
-
-  response.status(200).json({ getAllCards });
-});
-
-//GET 1 Card with cardId
-app.get("/api/cards/:cardId", async (request, response) => {
-  const {
-    params: { cardId },
-  } = request;
-
-  const getCard = await prisma.card.findUnique({
-    where: { id: Number(cardId) },
-  });
-  response.status(200).json({ getCard });
-});
-
 // PUT method replaces all current representations of the target resource with the request payload.
 // For example: Need to send no-modified data and modified data in the body.
-// TODO: Validation for params | update DELETE and PATCH with validation | unified card.id === cardId function and convert it to middleware function
+// Validation for params | update DELETE and PATCH with validation | unified card.id === cardId function and convert it to middleware function
+
 // check PUT and PATCH (check difference) and write additional PUT endpoint
 app.put("/api/cards/:cardId", validateCardId, (request, response) => {
   const {
