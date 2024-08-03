@@ -440,7 +440,7 @@
     },
     "/api/answers/{answerId}": {
       "patch": {
-        "summary": "Update a Answer Title",
+        "summary": "Update Answer Title",
         "description": "Updates a specific answer identified by its ID.",
         "parameters": [
           {

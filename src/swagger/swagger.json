@@ -52,6 +52,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Level not found"
           }
         }
       }
@@ -105,18 +108,16 @@
                   }
                 },
                 "example": {
-                  "getAllSublevels": {
-                    "id": 1,
-                    "title": "Level 1",
-                    "subLevels": [
-                      {
-                        "id": 1,
-                        "title": "Subject Pronouns",
-                        "audio": "audio_level_1.mp4",
-                        "levelId": 1
-                      }
-                    ]
-                  }
+                  "id": 1,
+                  "title": "Level 1",
+                  "subLevels": [
+                    {
+                      "id": 1,
+                      "title": "Subject Pronouns",
+                      "audio": "audio_level_1.mp4",
+                      "levelId": 1
+                    }
+                  ]
                 }
               }
             }
@@ -179,12 +180,76 @@
                   }
                 },
                 "example": {
+                  "subLevelId": 1,
                   "getAllCards": [
                     {
                       "id": 1,
                       "front": "do widzenia",
                       "back": "See you!",
                       "image": "/excited.jpg",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 2,
+                      "front": "dom",
+                      "back": "home",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 3,
+                      "front": "on",
+                      "back": "he",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 4,
+                      "front": "ona",
+                      "back": "she",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 5,
+                      "front": "ono",
+                      "back": "it",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 6,
+                      "front": "my",
+                      "back": "we",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 7,
+                      "front": "wy",
+                      "back": "you",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 8,
+                      "front": "oni",
+                      "back": "they",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 9,
+                      "front": "Ja jestem.",
+                      "back": "I am.",
+                      "image": "",
+                      "subLevelId": 1
+                    },
+                    {
+                      "id": 10,
+                      "front": "Ty jesteś.",
+                      "back": "You are.",
+                      "image": "",
                       "subLevelId": 1
                     }
                   ]
@@ -225,8 +290,8 @@
                       "type": "integer"
                     },
                     "getQuestion": {
-                      "type": "array",
-                      "items": {
+                      "type": "object",
+                      "properties": {
                         "type": "object",
                         "properties": {
                           "id": {
@@ -239,13 +304,14 @@
                             "type": "string"
                           },
                           "answeredCorrectly": {
-                            "type": "string"
+                            "type": "boolean"
                           },
                           "gramarLevel": {
                             "type": "string"
                           },
                           "userAnswer": {
-                            "type": "string"
+                            "type": "string",
+                            "nulable": true
                           },
                           "subLevelId": {
                             "type": "integer"
@@ -271,6 +337,35 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "questionId": 1,
+                  "getQuestion": {
+                    "id": 1,
+                    "title": "He____fun",
+                    "correctAnswer": "is",
+                    "answeredCorrectly": false,
+                    "gramarLevel": "1.1 Subject Pronouns",
+                    "userAnswer": null,
+                    "subLevelId": 1,
+                    "answers": [
+                      {
+                        "id": 1,
+                        "answer": "his",
+                        "questionId": 1
+                      },
+                      {
+                        "id": 2,
+                        "answer": "have",
+                        "questionId": 1
+                      },
+                      {
+                        "id": 3,
+                        "answer": "had",
+                        "questionId": 1
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -280,7 +375,7 @@
     },
     "/api/levels/{levelId}": {
       "patch": {
-        "summary": "Update a Level Title",
+        "summary": "Update a Level Title by ID",
         "description": "Updates a specific level identified by its ID.",
         "parameters": [
           {
@@ -326,6 +421,10 @@
                       "description": "The updated title of the level."
                     }
                   }
+                },
+                "example": {
+                  "id": 1,
+                  "title": "Level 1"
                 }
               }
             }
@@ -341,7 +440,7 @@
     },
     "/api/levels/{levelId}/sublevels/{sublevelId}": {
       "patch": {
-        "summary": "Update Sublevel, audio and question title",
+        "summary": "Update Sublevel, Audio and Question title by Level and Sublevel ID",
         "description": "Updates a specific sublevel identified by its ID.",
         "parameters": [
           {
@@ -402,28 +501,92 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "The ID of the updated sublevel."
+                    "questionId": {
+                      "type": "integer"
                     },
-                    "title": {
-                      "type": "string",
-                      "description": "The updated title of the sublevel."
-                    },
-                    "audio": {
-                      "type": "string",
-                      "description": "The updated audio title of the sublevel."
-                    },
-                    "question": {
+                    "getQuestion": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "The ID of the updated sublevel."
+                        },
                         "title": {
                           "type": "string",
-                          "description": "The title of the question."
+                          "description": "The updated title of the sublevel."
+                        },
+                        "correctAnswer": {
+                          "type": "string",
+                          "description": "The updated title of the correct answer."
+                        },
+                        "answeredCorrectly": {
+                          "type": "boolean",
+                          "description": "The result of answer in the sublevel."
+                        },
+                        "gramarLevel": {
+                          "type": "string",
+                          "description": "The result of sublevel number."
+                        },
+                        "userAnswer": {
+                          "type": "string",
+                          "nulable": true,
+                          "description": "The result of user answer."
+                        },
+                        "subLevelId": {
+                          "type": "integer",
+                          "description": "The result of sublevel ID."
+                        },
+                        "answers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "description": "The ID of the answer."
+                              },
+                              "answer": {
+                                "type": "string",
+                                "description": "The title of the answer."
+                              },
+                              "questionId": {
+                                "type": "integer",
+                                "description": "The ID of the question."
+                              }
+                            }
+                          }
                         }
-                      },
-                      "description": "The question related to the sublevel."
+                      }
                     }
+                  }
+                },
+                "example": {
+                  "questionId": 1,
+                  "getQuestion": {
+                    "id": 1,
+                    "title": "She____fun yesterday",
+                    "correctAnswer": "is",
+                    "answeredCorrectly": false,
+                    "gramarLevel": "1.1 Subject Pronouns",
+                    "userAnswer": null,
+                    "subLevelId": 1,
+                    "answers": [
+                      {
+                        "id": 1,
+                        "answer": "his",
+                        "questionId": 1
+                      },
+                      {
+                        "id": 2,
+                        "answer": "have",
+                        "questionId": 1
+                      },
+                      {
+                        "id": 3,
+                        "answer": "had",
+                        "questionId": 1
+                      }
+                    ]
                   }
                 }
               }
@@ -440,7 +603,7 @@
     },
     "/api/answers/{answerId}": {
       "patch": {
-        "summary": "Update Answer Title",
+        "summary": "Update Answer Title by its ID",
         "description": "Updates a specific answer identified by its ID.",
         "parameters": [
           {
@@ -486,6 +649,10 @@
                       "description": "The updated title of the answer"
                     }
                   }
+                },
+                "example": {
+                  "id": 1,
+                  "answer": "Answer 1"
                 }
               }
             }
@@ -495,6 +662,90 @@
           },
           "404": {
             "description": "Answer not found"
+          }
+        }
+      }
+    },
+    "/api/cards/{cardId}": {
+      "patch": {
+        "summary": "Update a Card Title by its ID",
+        "description": "Updates a specific card identified by its ID.",
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "description": "ID of the requested card",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "front": {
+                    "type": "string",
+                    "description": "The updated title of the front card"
+                  },
+                  "back": {
+                    "type": "string",
+                    "description": "The updated title of the back card"
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "The updated image of the  card"
+                  }
+                },
+                "required": ["front", "back", "image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card title updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The ID of the updated answer"
+                    },
+                    "front": {
+                      "type": "string",
+                      "description": "The updated front title of the card"
+                    },
+                    "back": {
+                      "type": "string",
+                      "description": "The updated back title of the card"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "The updated image of the card"
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "front": "do widzenia",
+                  "back": "See you!",
+                  "image": "/excited.jpg",
+                  "subLevelId": 1
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid patch data)"
+          },
+          "404": {
+            "description": "card not found"
           }
         }
       }
