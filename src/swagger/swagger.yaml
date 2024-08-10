@@ -234,7 +234,7 @@ paths:
                     answer: had
                     questionId: 1
         "404":
-        $ref: "#/components/responses/404NotFound"
+          $ref: "#/components/responses/404NotFound"
   /api/levels/{levelId}:
     patch:
       summary: Update a Level Title by ID
@@ -277,7 +277,7 @@ paths:
         "400":
           $ref: "#/components/responses/400BadRequest"
         "404":
-        $ref: "#/components/responses/404NotFound"
+          $ref: "#/components/responses/404NotFound"
 
   /api/levels/{levelId}/sublevels/{sublevelId}:
     patch:
@@ -392,7 +392,7 @@ paths:
         "400":
           $ref: "#/components/responses/400BadRequest"
         "404":
-        $ref: "#/components/responses/404NotFound"
+          $ref: "#/components/responses/404NotFound"
 
   /api/answers/{answerId}:
     patch:
@@ -436,7 +436,7 @@ paths:
         "400":
           $ref: "#/components/responses/400BadRequest"
         "404":
-        $ref: "#/components/responses/404NotFound"
+          $ref: "#/components/responses/404NotFound"
 
   /api/cards/{cardId}:
     patch:
@@ -495,9 +495,9 @@ paths:
                 image: "/excited.jpg"
                 subLevelId: 1
         "400":
-          $ref: "#/components/responses/400BadRequest"
+          description: Bad request (invalid patch data)
         "404":
-        $ref: "#/components/responses/404NotFound"
+          description: Card not found
 
 components:
   schemas:
