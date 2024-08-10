@@ -7,10 +7,14 @@ const app = express();
 const PORT = 4000;
 const bodyParser = require("body-parser");
 //SWAGGER
+const fs = require("fs");
+const path = require("path");
+const YAML = require("js-yaml");
+const swaggerDocument = YAML.load(
+  fs.readFileSync(path.resolve(__dirname, "./swagger/swagger.yaml"), "utf8")
+);
 const swaggerUi = require("swagger-ui-express");
-// const YAML = require("js-yaml");
-// const swaggerDocument = YAML.load("./swagger/swagger.yaml");
-const swaggerDocument = require("./swagger/swagger.json");
+// const swaggerDocument = require("./swagger/swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //PRISMA
 import { PrismaClient } from "@prisma/client";

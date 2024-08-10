@@ -1,0 +1,520 @@
+openapi: 3.0.0
+info:
+  title: "Loop Course: API Reference"
+  version: 1.0.0
+  description: CRUD API for Levels, Sublevels, Cards, Questions, Answers, and Audio
+  contact:
+    name: Eze Barredo
+servers:
+- url: http://localhost:4000
+
+paths:
+  /api/levels:
+    get:
+      summary: Get Levels
+      description: This endpoint retrieves a list of all levels.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Level"
+              example:
+                getAllLevels:
+                - id: 1
+                  title: Level 1
+        "404":
+          $ref: "#/components/responses/404NotFound"
+
+  /api/levels/{levelId}/sublevels:
+    get:
+      summary: Get sublevels by level ID
+      description: Retrieves Sublevels by Level ID.
+      parameters:
+      - name: levelId
+        in: path
+        description: ID of the requested level
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  levelId:
+                    type: integer
+                  sublevels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        title:
+                          type: string
+                        audio:
+                          type: string
+                        levelId:
+                          type: integer
+              example:
+                id: 1
+                title: Level 1
+                subLevels:
+                - id: 1
+                  title: Subject Pronouns
+                  audio: audio_level_1.mp4
+                  levelId: 1
+        "404":
+          $ref: "#/components/responses/404NotFound"
+
+  /api/sublevels/{sublevelId}/cards:
+    get:
+      summary: Get cards by sublevel ID
+      description: Retrieves Cards by Sublevel ID.
+      parameters:
+      - name: sublevelId
+        in: path
+        description: ID of the requested sublevel
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subLevelId:
+                    type: integer
+                  getAllCards:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        front:
+                          type: string
+                        back:
+                          type: string
+                        image:
+                          type: string
+                        subLevelId:
+                          type: integer
+              example:
+                subLevelId: 1
+                getAllCards:
+                - id: 1
+                  front: do widzenia
+                  back: See you!
+                  image: "/excited.jpg"
+                  subLevelId: 1
+                - id: 2
+                  front: dom
+                  back: home
+                  image: ""
+                  subLevelId: 1
+                - id: 3
+                  front: on
+                  back: he
+                  image: ""
+                  subLevelId: 1
+                - id: 4
+                  front: ona
+                  back: she
+                  image: ""
+                  subLevelId: 1
+                - id: 5
+                  front: ono
+                  back: it
+                  image: ""
+                  subLevelId: 1
+                - id: 6
+                  front: my
+                  back: we
+                  image: ""
+                  subLevelId: 1
+                - id: 7
+                  front: wy
+                  back: you
+                  image: ""
+                  subLevelId: 1
+                - id: 8
+                  front: oni
+                  back: they
+                  image: ""
+                  subLevelId: 1
+                - id: 9
+                  front: Ja jestem.
+                  back: I am.
+                  image: ""
+                  subLevelId: 1
+                - id: 10
+                  front: Ty jesteś.
+                  back: You are.
+                  image: ""
+        "404":
+          $ref: "#/components/responses/404NotFound"
+
+  /api/sub-levels/{questionId}:
+    get:
+      summary: Get question with its answers by question ID
+      description: Retrieves Questions and its Answers by questionId.
+      parameters:
+      - name: questionId
+        in: path
+        description: ID of the requested Question
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questionId:
+                    type: integer
+                  getQuestion:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      title:
+                        type: string
+                      correctAnswer:
+                        type: string
+                      answeredCorrectly:
+                        type: boolean
+                      gramarLevel:
+                        type: string
+                      userAnswer:
+                        type: string
+                        nullable: true
+                      subLevelId:
+                        type: integer
+                      answers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            answer:
+                              type: string
+                            questionId:
+                              type: integer
+              example:
+                questionId: 1
+                getQuestion:
+                  id: 1
+                  title: He____fun
+                  correctAnswer: is
+                  answeredCorrectly: false
+                  gramarLevel: 1.1 Subject Pronouns
+                  userAnswer: null
+                  subLevelId: 1
+                  answers:
+                  - id: 1
+                    answer: his
+                    questionId: 1
+                  - id: 2
+                    answer: have
+                    questionId: 1
+                  - id: 3
+                    answer: had
+                    questionId: 1
+        "404":
+        $ref: "#/components/responses/404NotFound"
+  /api/levels/{levelId}:
+    patch:
+      summary: Update a Level Title by ID
+      description: Updates a specific level identified by its ID.
+      parameters:
+      - name: levelId
+        in: path
+        description: ID of the requested level
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The updated title of the level.
+              required:
+              - title
+      responses:
+        "200":
+          description: Level updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the updated level.
+                  title:
+                    type: string
+                    description: The updated title of the level.
+              example:
+                id: 1
+                title: Level 1
+        "400":
+          $ref: "#/components/responses/400BadRequest"
+        "404":
+        $ref: "#/components/responses/404NotFound"
+
+  /api/levels/{levelId}/sublevels/{sublevelId}:
+    patch:
+      summary: Update Sublevel, Audio and Question title by Level and Sublevel ID
+      description: Updates a specific sublevel identified by its ID.
+      parameters:
+      - name: levelId
+        in: path
+        description: ID of the requested level
+        required: true
+        schema:
+          type: integer
+      - name: sublevelId
+        in: path
+        description: ID of the requested sublevel
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The updated title of the sublevel.
+                audio:
+                  type: string
+                  description: The updated audio title of the sublevel.
+                question:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the question.
+                  description: The question related to the sublevel.
+              required:
+              - title
+              - audio
+              - question
+      responses:
+        "200":
+          description: Sublevel updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questionId:
+                    type: integer
+                  getQuestion:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: The ID of the updated sublevel.
+                      title:
+                        type: string
+                        description: The updated title of the sublevel.
+                      correctAnswer:
+                        type: string
+                        description: The updated title of the correct answer.
+                      answeredCorrectly:
+                        type: boolean
+                        description: The result of answer in the sublevel.
+                      gramarLevel:
+                        type: string
+                        description: The result of sublevel number.
+                      userAnswer:
+                        type: string
+                        nullable: true
+                        description: The result of user answer.
+                      subLevelId:
+                        type: integer
+                        description: The result of sublevel ID.
+                      answers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: The ID of the answer.
+                            answer:
+                              type: string
+                              description: The title of the answer.
+                            questionId:
+                              type: integer
+                              description: The ID of the question.
+              example:
+                questionId: 1
+                getQuestion:
+                  id: 1
+                  title: She____fun yesterday
+                  correctAnswer: is
+                  answeredCorrectly: false
+                  gramarLevel: 1.1 Subject Pronouns
+                  userAnswer: null
+                  subLevelId: 1
+                  answers:
+                  - id: 1
+                    answer: his
+                    questionId: 1
+                  - id: 2
+                    answer: have
+                    questionId: 1
+                  - id: 3
+                    answer: had
+                    questionId: 1
+        "400":
+          $ref: "#/components/responses/400BadRequest"
+        "404":
+        $ref: "#/components/responses/404NotFound"
+
+  /api/answers/{answerId}:
+    patch:
+      summary: Update Answer Title by its ID
+      description: Updates a specific answer identified by its ID.
+      parameters:
+      - name: answerId
+        in: path
+        description: ID of the requested answer
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answer:
+                  type: string
+                  description: The updated title of the answer
+              required:
+              - answer
+      responses:
+        "200":
+          description: Answer title updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the updated answer
+                  answer:
+                    type: string
+                    description: The updated title of the answer
+              example:
+                id: 1
+                answer: Answer 1
+        "400":
+          $ref: "#/components/responses/400BadRequest"
+        "404":
+        $ref: "#/components/responses/404NotFound"
+
+  /api/cards/{cardId}:
+    patch:
+      summary: Update a Card Title by its ID
+      description: Updates a specific card identified by its ID.
+      parameters:
+      - name: cardId
+        in: path
+        description: ID of the requested card
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                front:
+                  type: string
+                  description: The updated title of the front card
+                back:
+                  type: string
+                  description: The updated title of the back card
+                image:
+                  type: string
+                  description: The updated image of the card
+              required:
+              - front
+              - back
+              - image
+      responses:
+        "200":
+          description: Card title updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The ID of the updated answer
+                  front:
+                    type: string
+                    description: The updated front title of the card
+                  back:
+                    type: string
+                    description: The updated back title of the card
+                  image:
+                    type: string
+                    description: The updated image of the card
+              example:
+                id: 1
+                front: do widzenia
+                back: See you!
+                image: "/excited.jpg"
+                subLevelId: 1
+        "400":
+          $ref: "#/components/responses/400BadRequest"
+        "404":
+        $ref: "#/components/responses/404NotFound"
+
+components:
+  schemas:
+    Level:
+      type: object
+      properties:
+        getAllLevels:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+
+  responses:
+    400BadRequest:
+      description: Bad request (invalid patch data).
+    404NotFound:
+      description: The specified resource was not found.
