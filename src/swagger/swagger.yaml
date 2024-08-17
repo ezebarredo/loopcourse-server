@@ -32,12 +32,7 @@ paths:
       summary: Get sublevels by level ID
       description: Retrieves Sublevels by Level ID.
       parameters:
-      - name: levelId
-        in: path
-        description: ID of the requested level
-        required: true
-        schema:
-          type: integer
+      - $ref: '#/components/parameters/LevelId'
       responses:
         "200":
           description: OK
@@ -51,16 +46,7 @@ paths:
                   sublevels:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        title:
-                          type: string
-                        audio:
-                          type: string
-                        levelId:
-                          type: integer
+                      $ref: "#/components/schemas/Sublevel"
               example:
                 id: 1
                 title: Level 1
@@ -77,12 +63,7 @@ paths:
       summary: Get cards by sublevel ID
       description: Retrieves Cards by Sublevel ID.
       parameters:
-      - name: sublevelId
-        in: path
-        description: ID of the requested sublevel
-        required: true
-        schema:
-          type: integer
+      - $ref: "#/components/parameters/SublevelId"
       responses:
         "200":
           description: OK
@@ -96,18 +77,7 @@ paths:
                   getAllCards:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                        front:
-                          type: string
-                        back:
-                          type: string
-                        image:
-                          type: string
-                        subLevelId:
-                          type: integer
+                      $ref: "#/components/schemas/Card"
               example:
                 subLevelId: 1
                 getAllCards:
@@ -168,12 +138,7 @@ paths:
       summary: Get question with its answers by question ID
       description: Retrieves Questions and its Answers by questionId.
       parameters:
-      - name: questionId
-        in: path
-        description: ID of the requested Question
-        required: true
-        schema:
-          type: integer
+      - $ref: "#/components/parameters/QuestionId"
       responses:
         "200":
           description: OK
@@ -185,34 +150,11 @@ paths:
                   questionId:
                     type: integer
                   getQuestion:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      title:
-                        type: string
-                      correctAnswer:
-                        type: string
-                      answeredCorrectly:
-                        type: boolean
-                      gramarLevel:
-                        type: string
-                      userAnswer:
-                        type: string
-                        nullable: true
-                      subLevelId:
-                        type: integer
-                      answers:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            answer:
-                              type: string
-                            questionId:
-                              type: integer
+                    $ref: "#/components/schemas/Question"
+                  answers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Answer"
               example:
                 questionId: 1
                 getQuestion:
@@ -235,17 +177,13 @@ paths:
                     questionId: 1
         "404":
           $ref: "#/components/responses/404NotFound"
+          # TODO: Continue here updating parameters and schemas
   /api/levels/{levelId}:
     patch:
       summary: Update a Level Title by ID
       description: Updates a specific level identified by its ID.
       parameters:
-      - name: levelId
-        in: path
-        description: ID of the requested level
-        required: true
-        schema:
-          type: integer
+      - $ref: '#/components/parameters/LevelId'
       requestBody:
         content:
           application/json:
@@ -263,14 +201,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    description: The ID of the updated level.
-                  title:
-                    type: string
-                    description: The updated title of the level.
+                $ref: "#/components/schemas/Level"
               example:
                 id: 1
                 title: Level 1
@@ -284,18 +215,8 @@ paths:
       summary: Update Sublevel, Audio and Question title by Level and Sublevel ID
       description: Updates a specific sublevel identified by its ID.
       parameters:
-      - name: levelId
-        in: path
-        description: ID of the requested level
-        required: true
-        schema:
-          type: integer
-      - name: sublevelId
-        in: path
-        description: ID of the requested sublevel
-        required: true
-        schema:
-          type: integer
+      - $ref: '#/components/parameters/LevelId'
+      - $ref: '#/components/parameters/SublevelId'
       requestBody:
         required: true
         content:
@@ -331,44 +252,11 @@ paths:
                   questionId:
                     type: integer
                   getQuestion:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        description: The ID of the updated sublevel.
-                      title:
-                        type: string
-                        description: The updated title of the sublevel.
-                      correctAnswer:
-                        type: string
-                        description: The updated title of the correct answer.
-                      answeredCorrectly:
-                        type: boolean
-                        description: The result of answer in the sublevel.
-                      gramarLevel:
-                        type: string
-                        description: The result of sublevel number.
-                      userAnswer:
-                        type: string
-                        nullable: true
-                        description: The result of user answer.
-                      subLevelId:
-                        type: integer
-                        description: The result of sublevel ID.
-                      answers:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              description: The ID of the answer.
-                            answer:
-                              type: string
-                              description: The title of the answer.
-                            questionId:
-                              type: integer
-                              description: The ID of the question.
+                    $ref: "#/components/schemas/Question"
+                  answers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Answer"
               example:
                 questionId: 1
                 getQuestion:
@@ -399,12 +287,7 @@ paths:
       summary: Update Answer Title by its ID
       description: Updates a specific answer identified by its ID.
       parameters:
-      - name: answerId
-        in: path
-        description: ID of the requested answer
-        required: true
-        schema:
-          type: integer
+      - $ref: "#/components/parameters/AnswerId"
       requestBody:
         content:
           application/json:
@@ -443,12 +326,7 @@ paths:
       summary: Update a Card Title by its ID
       description: Updates a specific card identified by its ID.
       parameters:
-      - name: cardId
-        in: path
-        description: ID of the requested card
-        required: true
-        schema:
-          type: integer
+      - $ref: "#/components/parameters/CardId"
       requestBody:
         content:
           application/json:
@@ -495,12 +373,56 @@ paths:
                 image: "/excited.jpg"
                 subLevelId: 1
         "400":
-          description: Bad request (invalid patch data)
+          $ref: "#/components/responses/400BadRequest"
         "404":
-          description: Card not found
+          $ref: "#/components/responses/404NotFound"
 
 components:
+
+  parameters:
+
+    LevelId:
+      name: levelId
+      in: path
+      description: ID of the requested level
+      required: true
+      schema:
+        type: integer
+
+    SublevelId:
+      name: sublevelId
+      in: path
+      description: ID of the requested sublevel
+      required: true
+      schema:
+        type: integer
+
+    QuestionId:
+      name: questionId
+      in: path
+      description: ID of the requested Question
+      required: true
+      schema:
+        type: integer
+
+    AnswerId:
+      name: answerId
+      in: path
+      description: ID of the requested answer
+      required: true
+      schema:
+        type: integer
+
+    CardId:
+      name: cardId
+      in: path
+      description: ID of the requested card
+      required: true
+      schema:
+        type: integer
+
   schemas:
+
     Level:
       type: object
       properties:
@@ -512,6 +434,64 @@ components:
                 type: integer
               title:
                 type: string
+
+    Sublevel:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        audio:
+          type: string
+        levelId:
+          type: integer
+
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        correctAnswer:
+          type: string
+        answeredCorrectly:
+          type: boolean
+        gramarLevel:
+          type: string
+        userAnswer:
+          type: string
+          nullable: true
+        subLevelId:
+          type: integer
+
+    Answer:
+      type: object
+      properties:
+        id:
+          type: integer
+        answer:
+          type: string
+        questionId:
+          type: integer
+
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+        front:
+          type: string
+        back:
+          type: string
+        image:
+          type: string
+        subLevelId:
+          type: integer
+
+
+
 
   responses:
     400BadRequest:
