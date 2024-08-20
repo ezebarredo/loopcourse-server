@@ -484,9 +484,6 @@ components:
           type: string
 
 
-
-
-
   responses:
     400BadRequest:
       description: Bad request (invalid patch data).
