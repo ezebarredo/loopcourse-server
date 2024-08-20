@@ -6,7 +6,7 @@ info:
   contact:
     name: Eze Barredo
 servers:
-- url: http://localhost:4000
+  - url: http://localhost:4000
 
 paths:
   /api/levels:
@@ -22,8 +22,8 @@ paths:
                 $ref: "#/components/schemas/Level"
               example:
                 getAllLevels:
-                - id: 1
-                  title: Level 1
+                  - id: 1
+                    title: Level 1
         "404":
           $ref: "#/components/responses/404NotFound"
 
@@ -32,7 +32,7 @@ paths:
       summary: Get sublevels by level ID
       description: Retrieves Sublevels by Level ID.
       parameters:
-      - $ref: '#/components/parameters/LevelId'
+        - $ref: "#/components/parameters/LevelId"
       responses:
         "200":
           description: OK
@@ -51,10 +51,10 @@ paths:
                 id: 1
                 title: Level 1
                 subLevels:
-                - id: 1
-                  title: Subject Pronouns
-                  audio: audio_level_1.mp4
-                  levelId: 1
+                  - id: 1
+                    title: Subject Pronouns
+                    audio: audio_level_1.mp4
+                    levelId: 1
         "404":
           $ref: "#/components/responses/404NotFound"
 
@@ -63,7 +63,7 @@ paths:
       summary: Get cards by sublevel ID
       description: Retrieves Cards by Sublevel ID.
       parameters:
-      - $ref: "#/components/parameters/SublevelId"
+        - $ref: "#/components/parameters/SublevelId"
       responses:
         "200":
           description: OK
@@ -81,55 +81,55 @@ paths:
               example:
                 subLevelId: 1
                 getAllCards:
-                - id: 1
-                  front: do widzenia
-                  back: See you!
-                  image: "/excited.jpg"
-                  subLevelId: 1
-                - id: 2
-                  front: dom
-                  back: home
-                  image: ""
-                  subLevelId: 1
-                - id: 3
-                  front: on
-                  back: he
-                  image: ""
-                  subLevelId: 1
-                - id: 4
-                  front: ona
-                  back: she
-                  image: ""
-                  subLevelId: 1
-                - id: 5
-                  front: ono
-                  back: it
-                  image: ""
-                  subLevelId: 1
-                - id: 6
-                  front: my
-                  back: we
-                  image: ""
-                  subLevelId: 1
-                - id: 7
-                  front: wy
-                  back: you
-                  image: ""
-                  subLevelId: 1
-                - id: 8
-                  front: oni
-                  back: they
-                  image: ""
-                  subLevelId: 1
-                - id: 9
-                  front: Ja jestem.
-                  back: I am.
-                  image: ""
-                  subLevelId: 1
-                - id: 10
-                  front: Ty jesteś.
-                  back: You are.
-                  image: ""
+                  - id: 1
+                    front: do widzenia
+                    back: See you!
+                    image: "/excited.jpg"
+                    subLevelId: 1
+                  - id: 2
+                    front: dom
+                    back: home
+                    image: ""
+                    subLevelId: 1
+                  - id: 3
+                    front: on
+                    back: he
+                    image: ""
+                    subLevelId: 1
+                  - id: 4
+                    front: ona
+                    back: she
+                    image: ""
+                    subLevelId: 1
+                  - id: 5
+                    front: ono
+                    back: it
+                    image: ""
+                    subLevelId: 1
+                  - id: 6
+                    front: my
+                    back: we
+                    image: ""
+                    subLevelId: 1
+                  - id: 7
+                    front: wy
+                    back: you
+                    image: ""
+                    subLevelId: 1
+                  - id: 8
+                    front: oni
+                    back: they
+                    image: ""
+                    subLevelId: 1
+                  - id: 9
+                    front: Ja jestem.
+                    back: I am.
+                    image: ""
+                    subLevelId: 1
+                  - id: 10
+                    front: Ty jesteś.
+                    back: You are.
+                    image: ""
         "404":
           $ref: "#/components/responses/404NotFound"
 
@@ -138,7 +138,7 @@ paths:
       summary: Get question with its answers by question ID
       description: Retrieves Questions and its Answers by questionId.
       parameters:
-      - $ref: "#/components/parameters/QuestionId"
+        - $ref: "#/components/parameters/QuestionId"
       responses:
         "200":
           description: OK
@@ -166,15 +166,15 @@ paths:
                   userAnswer: null
                   subLevelId: 1
                   answers:
-                  - id: 1
-                    answer: his
-                    questionId: 1
-                  - id: 2
-                    answer: have
-                    questionId: 1
-                  - id: 3
-                    answer: had
-                    questionId: 1
+                    - id: 1
+                      answer: his
+                      questionId: 1
+                    - id: 2
+                      answer: have
+                      questionId: 1
+                    - id: 3
+                      answer: had
+                      questionId: 1
         "404":
           $ref: "#/components/responses/404NotFound"
   /api/levels/{levelId}:
@@ -182,7 +182,7 @@ paths:
       summary: Update a Level Title by ID
       description: Updates a specific level identified by its ID.
       parameters:
-      - $ref: '#/components/parameters/LevelId'
+        - $ref: "#/components/parameters/LevelId"
       requestBody:
         content:
           application/json:
@@ -193,7 +193,7 @@ paths:
                   type: string
                   description: The updated title of the level.
               required:
-              - title
+                - title
       responses:
         "200":
           description: Level updated successfully
@@ -214,8 +214,8 @@ paths:
       summary: Update Sublevel, Audio and Question title by Level and Sublevel ID
       description: Updates a specific sublevel identified by its ID.
       parameters:
-      - $ref: '#/components/parameters/LevelId'
-      - $ref: '#/components/parameters/SublevelId'
+        - $ref: "#/components/parameters/LevelId"
+        - $ref: "#/components/parameters/SublevelId"
       requestBody:
         required: true
         content:
@@ -237,9 +237,9 @@ paths:
                       description: The title of the question.
                   description: The question related to the sublevel.
               required:
-              - title
-              - audio
-              - question
+                - title
+                - audio
+                - question
       responses:
         "200":
           description: Sublevel updated successfully
@@ -267,15 +267,15 @@ paths:
                   userAnswer: null
                   subLevelId: 1
                   answers:
-                  - id: 1
-                    answer: his
-                    questionId: 1
-                  - id: 2
-                    answer: have
-                    questionId: 1
-                  - id: 3
-                    answer: had
-                    questionId: 1
+                    - id: 1
+                      answer: his
+                      questionId: 1
+                    - id: 2
+                      answer: have
+                      questionId: 1
+                    - id: 3
+                      answer: had
+                      questionId: 1
         "400":
           $ref: "#/components/responses/400BadRequest"
         "404":
@@ -286,14 +286,13 @@ paths:
       summary: Update Answer Title by its ID
       description: Updates a specific answer identified by its ID.
       parameters:
-      - $ref: "#/components/parameters/AnswerId"
+        - $ref: "#/components/parameters/AnswerId"
       requestBody:
         content:
           application/json:
             schema:
-
               required:
-              - answer
+                - answer
       responses:
         "200":
           description: Answer title updated successfully
@@ -314,7 +313,7 @@ paths:
       summary: Update a Card Title by its ID
       description: Updates a specific card identified by its ID.
       parameters:
-      - $ref: "#/components/parameters/CardId"
+        - $ref: "#/components/parameters/CardId"
       requestBody:
         content:
           application/json:
@@ -331,9 +330,9 @@ paths:
                   type: string
                   description: The updated image of the card
               required:
-              - front
-              - back
-              - image
+                - front
+                - back
+                - image
       responses:
         "200":
           description: Card title updated successfully
@@ -353,9 +352,7 @@ paths:
           $ref: "#/components/responses/404NotFound"
 
 components:
-
   parameters:
-
     LevelId:
       name: levelId
       in: path
@@ -397,7 +394,6 @@ components:
         type: integer
 
   schemas:
-
     Level:
       type: object
       properties:
@@ -457,7 +453,6 @@ components:
         answer:
           type: string
 
-
     Card:
       type: object
       properties:
@@ -472,7 +467,6 @@ components:
         subLevelId:
           type: integer
 
-
     CardId:
       type: object
       properties:
@@ -482,7 +476,6 @@ components:
           type: string
         image:
           type: string
-
 
   responses:
     400BadRequest:
