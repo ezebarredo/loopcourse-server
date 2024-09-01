@@ -291,6 +291,11 @@ paths:
         content:
           application/json:
             schema:
+              type: object
+              properties:
+                answer:
+                  type: string
+                  description: The updated title of the answer
               required:
                 - answer
       responses:

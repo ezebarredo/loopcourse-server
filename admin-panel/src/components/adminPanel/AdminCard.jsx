@@ -56,7 +56,6 @@ export default function AdminCard() {
   const handleSubmit = (e) => {
     e.preventDefault();
     patchCard();
-    console.log(`New cards name: ${card.front} ${card.back}`);
   };
 
   const handleCardFrontChange = (e) => {
