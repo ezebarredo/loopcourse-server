@@ -13,6 +13,11 @@ import AdminLevels from "./components/adminPanel/AdminLevels.jsx";
 import AdminSublevel from "./components/adminPanel/AdminSublevel.jsx";
 import AdminSublevels from "./components/adminPanel/AdminSublevels.jsx";
 import AdminCards from "./components/adminPanel/AdminCards.jsx";
+import LoginLayout from "./authentication/LoginLayout.jsx";
+import LoginHome from "./authentication/LoginHome.jsx";
+import Login from "./authentication/Login.jsx";
+import SignUp from "./authentication/Signup.jsx";
+import UserCreated from "./authentication/UserCreated.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +35,28 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+    ],
+  },
+  {
+    path: "/api/user",
+    element: <LoginLayout />,
+    children: [
+      {
+        path: "/api/user",
+        element: <LoginHome />,
+      },
+      {
+        path: "/api/user/login",
+        element: <Login />,
+      },
+      {
+        path: "/api/user/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/api/user/user-created",
+        element: <UserCreated />,
       },
     ],
   },

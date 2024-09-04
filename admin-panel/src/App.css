@@ -639,6 +639,16 @@ main .bottom_data .reminders .task_list li.uncomplete {
   background-color: #f1f1f1;
 }
 
+.container-auth {
+  max-width: 800px;
+  margin: 0 auto;
+  height: auto;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: var(--dark);
+  user-select: none;
+}
+
 .title-habilidades {
   display: flex;
   flex-direction: column;
