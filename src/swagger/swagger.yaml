@@ -209,12 +209,11 @@ paths:
         "404":
           $ref: "#/components/responses/404NotFound"
 
-  /api/levels/{levelId}/sublevels/{sublevelId}:
+  /api/sublevels/{sublevelId}:
     patch:
       summary: Update Sublevel, Audio and Question title by Level and Sublevel ID
       description: Updates a specific sublevel identified by its ID.
       parameters:
-        - $ref: "#/components/parameters/LevelId"
         - $ref: "#/components/parameters/SublevelId"
       requestBody:
         required: true

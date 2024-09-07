@@ -44,8 +44,8 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/levels", LevelRouter);
-app.use("/api/levels/", SublevelRouter);
-app.use("/api/answers/", AnswerRouter);
+app.use("/api/sublevels", SublevelRouter);
+app.use("/api/answers", AnswerRouter);
 app.use("/api/cards", CardRouter);
 
 // Classic pattern for REST API creation:
@@ -149,35 +149,6 @@ app.post("/api/:questionId/answers", async (request, response) => {
 app.get("/api/levels", async (request, response) => {
   const getAllLevels = await prisma.level.findMany();
   response.status(200).json({ getAllLevels });
-});
-
-//get 1 Level and 1 sublevel
-app.get("/api/levels/:levelId", async (request, response) => {
-  const {
-    params: { levelId },
-  } = request;
-
-  const getLevel = await prisma.level.findUnique({
-    where: { id: Number(levelId) },
-    include: {
-      subLevels: true,
-    },
-  });
-  response.status(200).json({ getLevel });
-});
-
-// GET 1 Level with all SubLevels
-app.get("/api/levels/:levelId/sublevels", async (request, response) => {
-  const {
-    params: { levelId },
-  } = request;
-  const getAllSublevels = await prisma.level.findUnique({
-    where: { id: Number(levelId) },
-    include: {
-      subLevels: true,
-    },
-  });
-  response.status(200).json({ getAllSublevels });
 });
 
 //Get 1 question with 3 answers

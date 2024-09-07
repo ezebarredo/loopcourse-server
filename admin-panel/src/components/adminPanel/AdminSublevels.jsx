@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 export default function AdminSublevels() {
   let { levelId } = useParams();
   const [subLevel, setSubLevel] = useState(null);
-  const getApiSubLevels = `http://localhost:4000/api/levels/${levelId}/sublevels/`;
+  const getApiSubLevels = `http://localhost:4000/api/levels/${levelId}/sublevels`;
 
   useEffect(() => {
     const asyncFn = async () => {

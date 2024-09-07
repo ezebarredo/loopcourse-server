@@ -7,6 +7,7 @@ import Modal from "../shared/Modal";
 export default function AdminSubLevel() {
   let { levelId, sublevelId } = useParams();
   const API_URL_SUBLEVEL = `http://localhost:4000/api/levels/${levelId}/sublevels/${sublevelId}`;
+  const API_URL_SUBLEVEL_PATCH = `http://localhost:4000/api/sublevels/${sublevelId}`;
   const API_URL_ANSWERS_PATCH = `http://localhost:4000/api/answers`;
   const [subLevel, setSubLevel] = useState(null);
   const [answer, setAnswer] = useState("");
@@ -32,7 +33,7 @@ export default function AdminSubLevel() {
 
   const patchSublevelAudioQuestion = async () => {
     try {
-      const response = await fetch(API_URL_SUBLEVEL, {
+      const response = await fetch(API_URL_SUBLEVEL_PATCH, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

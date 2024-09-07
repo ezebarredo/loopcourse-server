@@ -8,7 +8,7 @@ const router = Router();
 //PATCH 1 Sublevel with title/audio
 export const patchSublevel = async (request: Request, response: Response) => {
   const {
-    params: { levelId, sublevelId },
+    params: { sublevelId },
     body,
   } = request;
 
@@ -41,5 +41,5 @@ export const patchSublevel = async (request: Request, response: Response) => {
   });
 };
 
-router.patch("/:levelId/sublevels/:sublevelId", patchSublevel);
+router.patch("/:sublevelId", patchSublevel);
 export default router;
