@@ -133,7 +133,7 @@ paths:
         "404":
           $ref: "#/components/responses/404NotFound"
 
-  /api/sub-levels/{questionId}:
+  /api/sublevels/{questionId}:
     get:
       summary: Get question with its answers by question ID
       description: Retrieves Questions and its Answers by questionId.

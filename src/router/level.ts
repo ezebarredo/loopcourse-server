@@ -5,6 +5,12 @@ import type { Request, Response } from "express";
 const prisma = new PrismaClient();
 const router = Router();
 
+//GET all levels
+export const getLevels = async (request: Request, response: Response) => {
+  const getAllLevels = await prisma.level.findMany();
+  response.status(200).json({ getAllLevels });
+};
+
 // GET 1 Level with all SubLevels
 export const getSublevels = async (request: Request, response: Response) => {
   const {
@@ -19,7 +25,26 @@ export const getSublevels = async (request: Request, response: Response) => {
   response.status(200).json({ getAllSublevels });
 };
 
-//get 1 Level and 1 sublevel
+//GET 1 Sublevels with cards, questions and answers
+export const getSublevelsCardsQuestionsAnswers = async (
+  request: Request,
+  response: Response
+) => {
+  const {
+    params: { levelId, sublevelId },
+  } = request;
+
+  const getSublevel = await prisma.subLevel.findUnique({
+    where: { id: Number(sublevelId) },
+    include: {
+      question: { include: { answers: true } },
+      cards: true,
+    },
+  });
+  response.status(200).json({ getSublevel });
+};
+
+//GET 1 Level and 1 sublevel
 export const getLevel = async (request: Request, response: Response) => {
   const {
     params: { levelId },
@@ -50,7 +75,12 @@ export const patchLevel = async (request: Request, response: Response) => {
   response.status(200).json({ updateLevelInfo });
 };
 
+router.get("", getLevels);
 router.get("/:levelId/sublevels", getSublevels);
+router.get(
+  "/:levelId/sublevels/:sublevelId",
+  getSublevelsCardsQuestionsAnswers
+);
 router.get("/:levelId", getLevel);
 router.patch("/:levelId", patchLevel);
 

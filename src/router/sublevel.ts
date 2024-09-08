@@ -5,6 +5,31 @@ import type { Request, Response } from "express";
 const prisma = new PrismaClient();
 const router = Router();
 
+export const getCards = async (request: Request, response: Response) => {
+  const {
+    params: { sublevelId },
+  } = request;
+
+  const getAllCards = await prisma.card.findMany();
+
+  response.status(200).json({ getAllCards });
+};
+
+//Get 1 question with 3 answers
+export const getQuestion = async (request: Request, response: Response) => {
+  const {
+    params: { questionId },
+  } = request;
+
+  const getQuestion = await prisma.question.findUnique({
+    where: { id: Number(questionId) },
+    include: {
+      answers: true,
+    },
+  });
+  response.status(200).json({ getQuestion });
+};
+
 //PATCH 1 Sublevel with title/audio
 export const patchSublevel = async (request: Request, response: Response) => {
   const {
@@ -41,5 +66,7 @@ export const patchSublevel = async (request: Request, response: Response) => {
   });
 };
 
+router.get("/:sublevelId/cards", getCards);
+router.get("/:questionId", getQuestion);
 router.patch("/:sublevelId", patchSublevel);
 export default router;
