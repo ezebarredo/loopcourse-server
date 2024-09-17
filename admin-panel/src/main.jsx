@@ -39,23 +39,23 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/api/user",
+    path: "/user",
     element: <LoginLayout />,
     children: [
       {
-        path: "/api/user",
+        path: "/user",
         element: <LoginHome />,
       },
       {
-        path: "/api/user/login",
+        path: "/user/login",
         element: <Login />,
       },
       {
-        path: "/api/user/signup",
+        path: "/user/signup",
         element: <SignUp />,
       },
       {
-        path: "/api/user/user-created",
+        path: "/user/user-created",
         element: <UserCreated />,
       },
     ],

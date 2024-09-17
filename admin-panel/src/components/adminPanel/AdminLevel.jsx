@@ -26,7 +26,9 @@ export default function AdminLevel() {
     asyncFn();
   }, [levelId]);
 
-  const patchLevel = async () => {
+  const patchLevel = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await fetch(getApiLevel, {
         method: "PATCH",

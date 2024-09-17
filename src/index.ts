@@ -5,6 +5,7 @@ import LevelRouter from "./router/level";
 import SublevelRouter from "./router/sublevel";
 import AnswerRouter from "./router/answer";
 import CardRouter from "./router/card";
+import AuthRouter from "./auth/auth";
 
 // const nanoid = require("nanoid").nanoid;
 const morgan = require("morgan");
@@ -49,6 +50,7 @@ app.use("/api/levels", LevelRouter);
 app.use("/api/sublevels", SublevelRouter);
 app.use("/api/answers", AnswerRouter);
 app.use("/api/cards", CardRouter);
+app.use("/api/user", AuthRouter);
 
 // Classic pattern for REST API creation:
 
