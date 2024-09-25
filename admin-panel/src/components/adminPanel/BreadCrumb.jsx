@@ -74,6 +74,9 @@ export default function Breadcrumb() {
           >
             {crumbsCards}
           </NavLink>
+          <div style={{ marginLeft: "auto" }}>
+            <button>Logout</button>
+          </div>
         </nav>
       </div>
       {/* Nav Breadcrumb ends */}

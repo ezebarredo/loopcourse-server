@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import store from "../data/store";
 
-export default function SignUp() {
+export default function Login() {
   const [username, setUserName] = useState("test@test.com");
   const [password, setPassword] = useState("12345");
-  const [repassword, setRePassword] = useState("12345");
-  const [isSignUpEnabled, setIsSignIpEnabled] = useState(!false);
+  // const token = store((state) => state.token);
+  const setToken = store((state) => state.setToken);
+  const setUser = store((state) => state.setUser);
   const navigate = useNavigate();
 
-  const postApiSignUp = `http://localhost:4000/api/user/signup`;
+  const postApiLogin = `http://localhost:4000/api/user/login`;
 
-  const postSignUp = async () => {
+  const postLogin = async () => {
     try {
-      const response = await fetch(postApiSignUp, {
+      const response = await fetch(postApiLogin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          // authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           username: username,
@@ -28,25 +31,20 @@ export default function SignUp() {
       }
 
       const data = await response.json();
-      navigate("/user/login");
       console.log(data);
-      setUserName(username);
-      setPassword(password);
-      alert("<<<< USER CREATED >>>> ");
+      setToken(data.token);
+      setUser(username);
+      // setUserName(username);
+      // setPassword(password);
+      navigate("/admin/dashboard");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const enableSubmitBtn = () => {
-    const userNameConfirmation = username;
-    const passwordConfirmation = password === repassword;
-    setIsSignIpEnabled(userNameConfirmation && passwordConfirmation);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    postSignUp();
+    postLogin();
   };
 
   const usernameInput = (e) => {
@@ -54,10 +52,6 @@ export default function SignUp() {
   };
   const passwordInput = (e) => {
     setPassword((password) => e.target.value);
-  };
-  const rePasswordInput = (e) => {
-    setRePassword((repassword) => e.target.value);
-    enableSubmitBtn();
   };
 
   return (
@@ -69,16 +63,17 @@ export default function SignUp() {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <h2>Sign Up</h2>
+          <h2>Login</h2>
           <br />
-          <label htmlFor="username">
-            <b>Username</b>
+          <label htmlFor="email">
+            <b>Email</b>
           </label>
           <input
             type="email"
             onInput={usernameInput}
             value={username}
             placeholder="Enter email"
+            name="email"
             required
           />
           <label htmlFor="password">
@@ -88,28 +83,17 @@ export default function SignUp() {
             type="password"
             onInput={passwordInput}
             value={password}
-            placeholder="Create Password"
-            required
-          />
-          <label htmlFor="confirm-password">
-            <b>Re-enter Password</b>
-          </label>
-          <input
-            type="password"
-            value={repassword}
-            onInput={rePasswordInput}
-            placeholder="Confirm Password"
+            placeholder="Enter Password"
             required
           />
           <br />
           <br />
-          <button
-            disabled={!isSignUpEnabled}
-            style={{ background: "black" }}
-            type="submit"
-          >
-            Sign Up
+          <button style={{ background: "black" }} type="submit">
+            Login
           </button>
+          <br />
+          <br />
+          <a href="#">Forgot password?</a>
         </div>
       </form>
     </>

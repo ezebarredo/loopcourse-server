@@ -11,6 +11,7 @@ export default function AdminLayout() {
         <NavLink to={"/admin/dashboard"} end>
           <span className="logo"> AdminPanel</span>
         </NavLink>
+
         {/*<ul style={{ marginLeft: "70px", marginTop: "50px" }}>
             <li>
               <NavLink to={"/admin/dashboard/"} end>
