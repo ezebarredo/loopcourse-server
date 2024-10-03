@@ -1,6 +1,7 @@
 import store from "../data/store";
+// import { useNavigate } from "react-router-dom";
 
-// TODO:
+// TODO: SignUp/Login/navigate
 ////////////////////////////////////////////////////////////////
 // const API_URL = process.env.API_URL || `http://localhost:4000`;
 const API_URL = `http://localhost:4000`;
@@ -11,15 +12,69 @@ const API_URL_POST_USER_LOGOUT = `${API_URL}/api/user/logout`;
 const API_URL_GET_USER_ITEMS = `${API_URL}/api/user/items`;
 // API: PUBLIC ROUTES
 const API_URL_GET_ITEMS = `${API_URL}/api/items`;
+// const navigate = useNavigate();
 
-const httpRequestWithToken = async ({ action, payload }) => {
-  const setToken = store((state) => state.setToken);
-  const setUser = store((state) => state.setUser);
+const publicRequest = async ({ action, payload }) => {
   try {
+    const { token, setToken, user, setUser } = store.getState();
     const publicRouteHeaders = {
       "Content-Type": "application/json",
     };
-    const token = store((state) => state.token);
+    let response;
+    let data;
+    switch (action) {
+      case "USER_LOGIN":
+        response = await fetch(API_URL_POST_USER_LOGIN, {
+          method: "POST",
+          headers: publicRouteHeaders,
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+        setToken(data.token);
+        setUser(data.user);
+
+        console.log("Logged in successfully :)");
+        // return navigate("/admin/dashboard");
+        break;
+      case "USER_SIGNUP":
+        response = await fetch(API_URL_POST_USER_SIGNUP, {
+          method: "POST",
+          headers: publicRouteHeaders,
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+        console.log("User created. You can now log in!");
+        break;
+      case "ITEMS":
+        response = await fetch(API_URL_GET_ITEMS, {
+          method: "GET",
+          headers: publicRouteHeaders,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const privateRequest = async ({ action, payload }) => {
+  try {
+    const { token, setToken, setUser } = store.getState();
     const privateRouteHeaders = {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
@@ -31,43 +86,6 @@ const httpRequestWithToken = async ({ action, payload }) => {
       // *************************************
       // PRIVATE ROUTES (REQUESTS)
       // *************************************
-      case "USER_SIGNUP":
-        response = await fetch(API_URL_POST_USER_SIGNUP, {
-          method: "POST",
-          headers: privateRouteHeaders,
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        data = await response.json();
-
-        setNotification("User created. You can now log in!");
-
-        return navigate("/user/login");
-
-      case "USER_LOGIN":
-        response = await fetch(API_URL_POST_USER_LOGIN, {
-          method: "POST",
-          headers: privateRouteHeaders,
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        data = await response.json();
-        setToken(data.token);
-        setUser(username);
-
-        setNotification("Logged in successfully.");
-        alert("Logged in successfully.");
-
-        return navigate("/admin/dashboard");
-
       case "USER_LOGOUT":
         response = await fetch(API_URL_POST_USER_LOGOUT, {
           method: "POST",
@@ -81,7 +99,7 @@ const httpRequestWithToken = async ({ action, payload }) => {
         setNotification("Logged out successfully.");
         setToken(null);
 
-        return navigate("/");
+      //   return navigate("/");
 
       case "USER_ITEMS":
         response = await fetch(API_URL_GET_USER_ITEMS, {
@@ -95,24 +113,7 @@ const httpRequestWithToken = async ({ action, payload }) => {
 
         data = await response.json();
 
-        return setUserItems(data);
-
-      // *************************************
-      // PUBLIC ROUTES (REQUESTS)
-      // *************************************
-      case "ITEMS":
-        response = await fetch(API_URL_GET_ITEMS, {
-          method: "GET",
-          headers: publicRouteHeaders,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        data = await response.json();
-
-        return setItems(data);
+      //   return setUserItems(data);
     }
   } catch (error) {
     console.log(error);
@@ -120,30 +121,27 @@ const httpRequestWithToken = async ({ action, payload }) => {
 };
 
 // EXAMPLE USAGE
-httpRequestWithToken({
-  action: "USER_SIGNUP",
-  payload: { email: "hello@world.com", password: "hello world" },
-});
+// httpRequestWithToken({
+//   action: "USER_SIGNUP",
+//   payload: { email: "hello@world.com", password: "hello world" },
+// });
 
-httpRequestWithToken({
-  action: "USER_LOGIN",
-  payload: { email: "hello@world.com", password: "hello world" },
-});
-httpRequestWithToken({
-  action: "USER_LOGOUT",
-  payload: {},
-});
+// httpRequestWithToken({
+//   action: "USER_LOGIN",
+//   payload: { email: "hello@world.com", password: "hello world" },
+// });
 
-const TOKEN_REQUEST = {
-  API_URL,
-  API_URL_POST_USER_SIGNUP,
-  API_URL_POST_USER_LOGIN,
-  API_URL_POST_USER_LOGOUT,
-  API_URL_GET_USER_ITEMS,
-  httpRequestWithToken,
+// httpRequestWithToken({
+//   action: "USER_LOGOUT",
+//   payload: {},
+// });
+
+const HttpTokenExample = {
+  publicRequest,
+  privateRequest,
 };
 
-export default TOKEN_REQUEST;
+export default HttpTokenExample;
 
 // case 'USER_SIGNUP'
 // case 'USER_LOGIN'

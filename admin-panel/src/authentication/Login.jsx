@@ -1,54 +1,16 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import store from "../data/store";
-import TOKEN_REQUEST from "../authentication/httpTokenExample";
+import httpRequestWithToken from "./httpTokenExample";
 
 export default function Login() {
   const [username, setUserName] = useState("test@test.com");
   const [password, setPassword] = useState("12345");
-  // const token = store((state) => state.token);
-  // const setToken = store((state) => state.setToken);
-  // const setUser = store((state) => state.setUser);
-  // const navigate = useNavigate();
-
-  TOKEN_REQUEST.API_URL;
-  TOKEN_REQUEST.API_URL_POST_USER_LOGIN;
-
-  // const postApiLogin = `http://localhost:4000/api/user/login`;
-
-  // const postLogin = async () => {
-  //   try {
-  //     const response = await fetch(postApiLogin, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({
-  //         username: username,
-  //         password: password,
-  //       }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     console.log(data);
-  //     setToken(data.token);
-  //     setUser(username);
-  //     // setUserName(username);
-  //     // setPassword(password);
-  //     navigate("/admin/dashboard");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    TOKEN_REQUEST.httpRequestWithToken();
+    httpRequestWithToken.publicRequest({
+      action: "USER_LOGIN",
+      payload: { username: username, password: password },
+    });
   };
 
   const usernameInput = (e) => {

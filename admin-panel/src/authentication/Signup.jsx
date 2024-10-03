@@ -1,42 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import httpRequestWithToken from "./httpTokenExample";
 
 export default function SignUp() {
   const [username, setUserName] = useState("test@test.com");
   const [password, setPassword] = useState("12345");
   const [repassword, setRePassword] = useState("12345");
   const [isSignUpEnabled, setIsSignIpEnabled] = useState(!false);
-  const navigate = useNavigate();
-
-  const postApiSignUp = `http://localhost:4000/api/user/signup`;
-
-  const postSignUp = async () => {
-    try {
-      const response = await fetch(postApiSignUp, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      navigate("/user/login");
-      console.log(data);
-      setUserName(username);
-      setPassword(password);
-      alert("<<<< USER CREATED >>>> ");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const enableSubmitBtn = () => {
     const userNameConfirmation = username;
@@ -46,7 +15,10 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postSignUp();
+    httpRequestWithToken.publicRequest({
+      action: "USER_SIGNUP",
+      payload: { username: username, password: password },
+    });
   };
 
   const usernameInput = (e) => {
